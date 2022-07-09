@@ -50,19 +50,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_QUOT, CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
     NM1_A  , NM2_O   , SMR_E  , SYS_U  , DV_I,        DV_D   , SYS_H  , SML_T  , FN2_N  , FN1_S,
     DV_SCLN, DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
-                                   SFT_SPC, REPEAT,  TG(_SYS), OSL(_AL2)
+                                SFT_SPC, REPEAT,  TO(_SYS), OSL(_AL2)
   ),
   [_AL2] = LAYOUT( 
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
     DV_SCLN, DV_Q   , DV_J   , DV_K   , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
   [_SYS] = LAYOUT( 
     KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , KC_GESC,
     KC_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 /* 
 []{}    +X*.   
@@ -72,7 +72,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
     DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 /* 
 ;^X`    /#@%
@@ -82,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 // XXXX   4560
 // XXXX   1230
@@ -90,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_0   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 // XXXX   7890
 // XXXX   4560
@@ -98,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_7   , DV_8   , DV_9   , DV_0   ,
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 // 0456   XXXX
 // 0123   XXXX
@@ -106,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_F11 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     KC_F10 , KC_F1  , KC_F2  , KC_F3  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 // 0789   XXXX
 // 0456   XXXX
@@ -114,7 +114,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_F11 , KC_F7  , KC_F8  , KC_F9  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     KC_F10 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LSFT, KC_LCTL,  KC_LALT, KC_LGUI
+                                 KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 };
 
@@ -195,6 +195,7 @@ void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
     }
 }
 
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case XX_M: // "Ь" on press, "Ъ" on hold 
@@ -213,6 +214,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;    
     }
+            
     process_repeat_key(keycode, record);
     mod_state = get_mods();
     oneshot_mod_state = get_oneshot_mods();
