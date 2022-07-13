@@ -16,7 +16,7 @@ enum ferris_layers {
 };
 
 #define XX_M LT(0, DV_M)
-#define XX_GESC LT(_SYS, KC_ESC)
+#define XX_ESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
 #define SYS_H LT(_SYS, DV_H)
 #define CPY_PST LT(_SYS, KC_NO)
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
   [_SYS] = LAYOUT( 
-    KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_GESC,
+    KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     KC_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
@@ -133,7 +133,7 @@ combo_t key_combos[COMBO_COUNT] = {
 
 
 const key_override_t delete_key_override = ko_make_basic(MOD_MASK_CTRL, KC_BSPC, KC_DEL);
-const key_override_t play_key_override = ko_make_basic(MOD_MASK_CTRL, KC_GESC, KC_MPLY);
+const key_override_t play_key_override = ko_make_basic(MOD_MASK_CTRL, XX_ESC, KC_MPLY);
 const key_override_t volu_key_override = ko_make_basic(MOD_MASK_CTRL, KC_PGUP, KC_VOLU);
 const key_override_t vold_key_override = ko_make_basic(MOD_MASK_CTRL, KC_PGDN, KC_VOLD);
 
@@ -206,7 +206,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; 
             }
             return true;             // Return true for normal processing of tap keycode
-        case XX_GESC:
+        case XX_ESC:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(KC_PSCR);
                 return false;
