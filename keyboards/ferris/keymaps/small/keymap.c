@@ -16,6 +16,7 @@ enum ferris_layers {
 };
 
 #define XX_M LT(0, DV_M)
+#define XX_GESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
 #define SYS_H LT(_SYS, DV_H)
 #define CPY_PST LT(_SYS, KC_NO)
@@ -33,6 +34,7 @@ enum ferris_layers {
 #define FN2_N LT(_FN1, DV_N)
 #define FN1_S LT(_FN2, DV_S)
 
+
 enum custom_keycodes {
     REPEAT = SAFE_RANGE
 };
@@ -40,9 +42,9 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /*
   [_] = LAYOUT( 
+    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
+    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
                                  _______, _______,  _______, _______
   ),
   */
@@ -59,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
   [_SYS] = LAYOUT( 
-    KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , KC_GESC,
+    KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_GESC,
     KC_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
@@ -97,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_NM2] = LAYOUT( 
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_7   , DV_8   , DV_9   , DV_0   ,
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , XXXXXXX,
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
 // 0456   XXXX
@@ -130,10 +132,10 @@ combo_t key_combos[COMBO_COUNT] = {
 };
 
 
-const key_override_t delete_key_override = ko_make_basic(MOD_MASK_ALT, KC_BSPC, KC_DEL);
-const key_override_t play_key_override = ko_make_basic(MOD_MASK_ALT, KC_GESC, KC_MPLY);
-const key_override_t volu_key_override = ko_make_basic(MOD_MASK_ALT, KC_PGUP, KC_VOLU);
-const key_override_t vold_key_override = ko_make_basic(MOD_MASK_ALT, KC_PGDN, KC_VOLD);
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_CTRL, KC_BSPC, KC_DEL);
+const key_override_t play_key_override = ko_make_basic(MOD_MASK_CTRL, KC_GESC, KC_MPLY);
+const key_override_t volu_key_override = ko_make_basic(MOD_MASK_CTRL, KC_PGUP, KC_VOLU);
+const key_override_t vold_key_override = ko_make_basic(MOD_MASK_CTRL, KC_PGDN, KC_VOLD);
 
 // This globally defines all key overrides to be used
 const key_override_t **key_overrides = (const key_override_t *[]){
@@ -204,6 +206,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false; 
             }
             return true;             // Return true for normal processing of tap keycode
+        case XX_GESC:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(KC_PSCR);
+                return false;
+            }    
+            return true;
         case CPY_PST:
             if (record->tap.count && record->event.pressed) {
                 // Intercept tap function to send Ctrl-V
