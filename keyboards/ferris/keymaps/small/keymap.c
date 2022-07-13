@@ -16,6 +16,7 @@ enum ferris_layers {
 };
 
 #define XX_M LT(0, DV_M)
+#define XX_ENT LT(_SYS, KC_ENT)
 #define XX_ESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
 #define SYS_H LT(_SYS, DV_H)
@@ -62,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_SYS] = LAYOUT( 
     KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    KC_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
@@ -212,13 +213,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 return false;
             }    
             return true;
+        case XX_ENT:
+            if (!record->tap.count && record->event.pressed) {
+                tap_code16(keymap_config.swap_lalt_lgui ? C(KC_ENT) : G(KC_ENT));
+                return false;
+            }    
+            return true;
         case CPY_PST:
             if (record->tap.count && record->event.pressed) {
                 // Intercept tap function to send Ctrl-V
-                tap_code16(  keymap_config.swap_lalt_lgui ? C(DV_C) : G(DV_C));
+                tap_code16( keymap_config.swap_lalt_lgui ? C(DV_C) : G(DV_C));
             } else if (record->event.pressed) {
                 // Intercept tap function to send Ctrl-V
-                tap_code16(  keymap_config.swap_lalt_lgui ? C(DV_V) : G(DV_V));
+                tap_code16( keymap_config.swap_lalt_lgui ? C(DV_V) : G(DV_V));
             }
             return false;    
     }
