@@ -52,7 +52,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_SCLN, DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
                                 SFT_SPC, REPEAT,  TO(_SYS), OSL(_AL2)
   ),
-  [_AL2] = LAYOUT( 
+  [_AL2] = LAYOUT(
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
     DV_SCLN, DV_Q   , DV_J   , DV_K   , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -218,6 +218,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     process_repeat_key(keycode, record);
     mod_state = get_mods();
     oneshot_mod_state = get_oneshot_mods();
+
+    // automaticaly move to _AL1 when symbol from _AL2 is pressed.
+    if(!record->event.pressed && IS_LAYER_ON(_AL2) && keycode != OSL(_AL2)) {
+       layer_clear();
+    }
     
     return true;
 }
