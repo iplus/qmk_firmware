@@ -31,8 +31,8 @@ enum ferris_layers {
 #define SML_T LT(_SML, DV_T)
 #define NM1_A LT(_NM1, DV_A)
 #define NM2_O LT(_NM2, DV_O)
-#define FN2_N LT(_FN1, DV_N)
-#define FN1_S LT(_FN2, DV_S)
+#define FN2_N LT(_FN2, DV_N)
+#define FN1_S LT(_FN1, DV_S)
 
 
 enum custom_keycodes {
