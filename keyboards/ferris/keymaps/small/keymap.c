@@ -17,6 +17,7 @@ enum ferris_layers {
 
 #define XX_M LT(0, DV_M)
 #define XX_ENT LT(_SYS, KC_ENT)
+#define XX_TAB LT(_SYS, KC_TAB)
 #define XX_ESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
 #define SYS_H LT(_SYS, DV_H)
@@ -63,7 +64,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_SYS] = LAYOUT( 
     KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    KC_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    XX_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LSFT, KC_LGUI,  KC_LALT, KC_LCTL
   ),
@@ -199,6 +200,7 @@ void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
 }
 
 
+static bool intab = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case XX_M: // "Ь" on press, "Ъ" on hold 
@@ -206,25 +208,55 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(KC_RBRC); // Intercept hold function to send Ъ
                 return false; 
             }
-            return true;             // Return true for normal processing of tap keycode
+           // return true;             // Return true for normal processing of tap keycode
+           break;
         case XX_ESC:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(KC_PSCR);
                 return false;
             }    
-            return true;
+          //  return true;
+           break;
         case XX_ENT:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(keymap_config.swap_lalt_lgui ? C(KC_ENT) : G(KC_ENT));
                 return false;
             }    
+          //  return true;
+           break;
+        case SYS_U:
+        case SYS_H:
+            // when release while ALT-TAB then send release of GUI key
+            if (!record->event.pressed && intab) {
+		           unregister_code(keycode_config(KC_LGUI));
+		           intab = false;
+               mod_state = keymap_config.swap_lalt_lgui ? MOD_LALT : MOD_LGUI;
+               last_keycode = KC_TAB;
+	          }
             return true;
+        case XX_TAB: // hold for ALT-TAB
+            if (record->tap.count && record->event.pressed) {
+                // tap
+                tap_code16(KC_TAB);
+                last_keycode = KC_TAB;
+                mod_state = get_mods();
+                oneshot_mod_state = get_oneshot_mods();
+            } else if (record->event.pressed) {
+                // hold
+                if (!intab) { 
+                  intab = true;
+			            register_code(keycode_config(KC_LGUI));
+			            register_code(KC_TAB); 
+			            unregister_code(KC_TAB); 
+                }   
+            }
+            return false; 
         case CPY_PST:
             if (record->tap.count && record->event.pressed) {
-                // Intercept tap function to send Ctrl-V
+                // Intercept tap function to send Ctrl-C
                 tap_code16( keymap_config.swap_lalt_lgui ? C(DV_C) : G(DV_C));
             } else if (record->event.pressed) {
-                // Intercept tap function to send Ctrl-V
+                // Intercept hold function to send Ctrl-V
                 tap_code16( keymap_config.swap_lalt_lgui ? C(DV_V) : G(DV_V));
             }
             return false;    
@@ -235,8 +267,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     oneshot_mod_state = get_oneshot_mods();
 
     // automaticaly move to _AL1 when symbol from _AL2 is pressed.
-    if(!record->event.pressed && IS_LAYER_ON(_AL2) && keycode != OSL(_AL2)) {
-       layer_clear();
+    if(!record->event.pressed && IS_LAYER_ON(_AL2) && IS_LAYER_OFF(_SYS) && keycode != OSL(_AL2) && keycode != XX_TAB) {
+      layer_clear();
     }
     
     return true;
