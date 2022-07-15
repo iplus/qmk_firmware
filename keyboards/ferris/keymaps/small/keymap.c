@@ -223,14 +223,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            break;
         case SYS_U:
         case SYS_H:
-            // when release while ALT-TAB then send release of GUI key
             if (!record->event.pressed && intab) {
 		           intab = false;
-               unregister_mods(keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI);
                last_keycode = KC_TAB;
                last_modifier = keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI;
+               unregister_code(keycode_config(KC_LGUI));
+               layer_clear();
+               return false;
 	          }
-            return true;
+            break;
         case XX_TAB:
             if (record->tap.count && record->event.pressed) {
                 // tap
@@ -242,7 +243,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // hold for ALT-TAB
                 if (!intab) { 
                   intab = true;
-                  register_mods(keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI);
+                  register_code(keycode_config(KC_LGUI));
 			            tap_code16(KC_TAB); 
                 }   
             }
