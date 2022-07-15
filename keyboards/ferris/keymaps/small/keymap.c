@@ -208,33 +208,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16(KC_RBRC); // Intercept hold function to send Ъ
                 return false; 
             }
-           // return true;             // Return true for normal processing of tap keycode
            break;
         case XX_ESC:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(KC_PSCR);
                 return false;
             }    
-          //  return true;
            break;
         case XX_ENT:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(keymap_config.swap_lalt_lgui ? C(KC_ENT) : G(KC_ENT));
                 return false;
             }    
-          //  return true;
            break;
         case SYS_U:
         case SYS_H:
             // when release while ALT-TAB then send release of GUI key
             if (!record->event.pressed && intab) {
-		           unregister_code(keycode_config(KC_LGUI));
 		           intab = false;
-               mod_state = keymap_config.swap_lalt_lgui ? MOD_LALT : MOD_LGUI;
+               unregister_mods(keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI);
                last_keycode = KC_TAB;
+               last_modifier = keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI;
 	          }
             return true;
-        case XX_TAB: // hold for ALT-TAB
+        case XX_TAB:
             if (record->tap.count && record->event.pressed) {
                 // tap
                 tap_code16(KC_TAB);
@@ -242,12 +239,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 mod_state = get_mods();
                 oneshot_mod_state = get_oneshot_mods();
             } else if (record->event.pressed) {
-                // hold
+                // hold for ALT-TAB
                 if (!intab) { 
                   intab = true;
-			            register_code(keycode_config(KC_LGUI));
-			            register_code(KC_TAB); 
-			            unregister_code(KC_TAB); 
+                  register_mods(keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI);
+			            tap_code16(KC_TAB); 
                 }   
             }
             return false; 
@@ -259,7 +255,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 // Intercept hold function to send Ctrl-V
                 tap_code16( keymap_config.swap_lalt_lgui ? C(DV_V) : G(DV_V));
             }
-            return false;    
+            return false;
     }
             
     process_repeat_key(keycode, record);
