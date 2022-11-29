@@ -13,6 +13,8 @@ enum ferris_layers {
   _FN1,
   _FN2,
   _SYS,
+  _GAME,
+  _NMG,
 };
 
 #define XX_M LT(0, DV_M)
@@ -43,14 +45,14 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /*
-  [_] = LAYOUT( 
+  [_] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
   ),
   */
-  [_AL1] = LAYOUT( 
+  [_AL1] = LAYOUT(
     DV_QUOT, CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
     NM1_A  , NM2_O   , SMR_E  , SYS_U  , DV_I,        DV_D   , SYS_H  , SML_T  , FN2_N  , FN1_S,
     DV_SCLN, DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
@@ -62,35 +64,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
-  [_SYS] = LAYOUT( 
-    KC_CAPS, AG_TOGG, KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    XX_TAB , KC_HOME, KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  [_SYS] = LAYOUT(
+    KC_CAPS, TO(_GAME), KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    XX_TAB , KC_HOME  , KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    XXXXXXX, XXXXXXX  , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
-/* 
-[]{}    +X*.   
-<>()    -o/= 
-*/   
-  [_SML] = LAYOUT( 
+  [_GAME] = LAYOUT(
+    KC_ESC, KC_M, KC_W, KC_E, XXXXXXX,              XXXXXXX, AG_TOGG, KC_UP  , KC_BSPC , TO(_AL1),
+    KC_TAB  , KC_A, KC_S, KC_D, XXXXXXX,              XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 MO(_NMG), KC_SPACE,  KC_LSFT, KC_LGUI
+  ),
+  [_NMG] = LAYOUT(
+    _______, KC_4, KC_5, KC_6, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
+    _______, KC_1, KC_2, KC_3, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, _______,  _______, _______
+  ),
+/*
+[]{}    +X*.
+<>()    -o/=
+*/
+  [_SML] = LAYOUT(
     DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
     DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
-/* 
-;^X`    /#@%
+/*
+;^X`    #@%/
 :$o~    $!&\
 */
   [_SMR] = LAYOUT(
-    DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
+    DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
 // XXXX   4560
 // XXXX   1230
-  [_NM1] = LAYOUT( 
+  [_NM1] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_0   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -98,7 +112,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 // XXXX   7890
 // XXXX   4560
-  [_NM2] = LAYOUT( 
+  [_NM2] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_7   , DV_8   , DV_9   , DV_0   ,
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , XXXXXXX,
@@ -106,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 // 0456   XXXX
 // 0123   XXXX
-  [_FN1] = LAYOUT( 
+  [_FN1] = LAYOUT(
     KC_F11 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     KC_F10 , KC_F1  , KC_F2  , KC_F3  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
@@ -114,15 +128,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 // 0789   XXXX
 // 0456   XXXX
-  [_FN2] = LAYOUT( 
-    KC_F11 , KC_F7  , KC_F8  , KC_F9  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    KC_F10 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
+  [_FN2] = LAYOUT(
+    KC_F13 , KC_F7  , KC_F8  , KC_F9  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
+    KC_F12 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, KC_F1  , KC_F2  , KC_F3  , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
 };
 
-enum combos { 
+enum combos {
   CMB_PLAY,
   CMB_AL1
 };
@@ -203,24 +217,24 @@ void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
 static bool intab = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case XX_M: // "Ь" on press, "Ъ" on hold 
+        case XX_M: // "Ь" on press, "Ъ" on hold
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(KC_RBRC); // Intercept hold function to send Ъ
-                return false; 
+                return false;
             }
            break;
         case XX_ESC:
             if (!record->tap.count && record->event.pressed) {
                 tap_code16(KC_PSCR);
                 return false;
-            }    
+            }
            break;
         case XX_ENT:
             if (!record->tap.count && record->event.pressed) {
                 // hold
                 tap_code16(keymap_config.swap_lalt_lgui ? C(KC_ENT) : G(KC_ENT));
                 return false;
-            }    
+            }
            break;
         case SYS_U:
         case SYS_H:
@@ -242,13 +256,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 oneshot_mod_state = get_oneshot_mods();
             } else if (record->event.pressed) {
                 // hold for ALT-TAB
-                if (!intab) { 
+                if (!intab) {
                   intab = true;
                   register_code(keycode_config(KC_LGUI));
-			            tap_code16(KC_TAB); 
-                }   
+			            tap_code16(KC_TAB);
+                }
             }
-            return false; 
+            return false;
         case CPY_PST:
             if (record->tap.count && record->event.pressed) {
                 // Intercept tap function to send Ctrl-C
@@ -259,7 +273,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
     }
-            
+
     process_repeat_key(keycode, record);
     mod_state = get_mods();
     oneshot_mod_state = get_oneshot_mods();
@@ -268,6 +282,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if(!record->event.pressed && IS_LAYER_ON(_AL2) && IS_LAYER_OFF(_SYS) && keycode != OSL(_AL2) && keycode != XX_TAB) {
       layer_clear();
     }
-    
+
     return true;
 }
