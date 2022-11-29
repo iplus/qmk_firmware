@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #undef PRODUCT
-#define PRODUCT Charybdis Nano (Blackpill)
+#define PRODUCT "Charybdis Nano (Blackpill)"
 
 #undef MATRIX_ROW_PINS
 #define MATRIX_ROW_PINS \
@@ -60,7 +60,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define AUDIO_PWM_DRIVER   PWMD3
 #define AUDIO_PWM_CHANNEL  4
 #define AUDIO_PWM_PAL_MODE 2
-#define AUDIO_STATE_TIMER  GPTD4
 
 /* serial.c configuration for split keyboard */
 #undef SOFT_SERIAL_PIN
@@ -98,10 +97,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define EXTERNAL_EEPROM_ADDRESS_SIZE         2
 
 /* pmw3360 config  */
-#undef PMW3360_CS_PIN
-#define PMW3360_CS_PIN                       B0
-#define PMW3360_SPI_MODE                     3
-#define PMW3360_SPI_DIVISOR                  64
+#undef PMW33XX_CS_PIN
+#define PMW33XX_CS_PIN                       B0
 
 #define CHARYBDIS_MINIMUM_DEFAULT_DPI 1200
 #define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 400
