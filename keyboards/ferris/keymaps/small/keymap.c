@@ -2,6 +2,7 @@
 #include "keymap_dvorak.h"
 #include "quantum.h"
 #include "process_combo.h"
+#include "env.h"
 
 enum ferris_layers {
   _AL1,
@@ -56,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_QUOT, CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
     NM1_A  , NM2_O   , SMR_E  , SYS_U  , DV_I,        DV_D   , SYS_H  , SML_T  , FN2_N  , FN1_S,
     DV_SCLN, DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
-                                REPEAT, SFT_SPC,  OSL(_AL2), TO(_SYS)
+                                REPEAT, SFT_SPC,  OSL(_AL2), KC_LEAD
   ),
   [_AL2] = LAYOUT(
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
@@ -65,15 +66,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
   [_SYS] = LAYOUT(
-    KC_CAPS, TO(_GAME), KC_PGUP, TO(_AL1), XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    XX_TAB , KC_HOME  , KC_PGDN, KC_END  , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
-    XXXXXXX, XXXXXXX  , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    KC_CAPS, KC_HOME , KC_PGUP, KC_END  , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    XX_TAB , KC_VOLD , KC_PGDN, KC_VOLU , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
   [_GAME] = LAYOUT(
-    KC_ESC, KC_M, KC_W, KC_E, XXXXXXX,              XXXXXXX, AG_TOGG, KC_UP  , KC_BSPC , TO(_AL1),
-    KC_TAB  , KC_A, KC_S, KC_D, XXXXXXX,              XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    KC_ESC , KC_M, KC_W, KC_E, KC_R,              XXXXXXX, AG_TOGG, KC_UP  , KC_BSPC , TO(_AL1),
+    KC_TAB , KC_A, KC_S, KC_D, KC_F,              XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_LSFT, KC_Z, KC_X, KC_C, KC_V,              XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  MO(_NMG), KC_SPACE,  KC_LSFT, KC_LGUI
   ),
   [_NMG] = LAYOUT(
@@ -284,4 +285,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
 
     return true;
+}
+
+LEADER_EXTERNS();
+
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    SEQ_ONE_KEY(DV_P) {
+      send_string_with_delay(PASSWORD, 50);
+    }
+
+    SEQ_ONE_KEY(DV_L) {
+        layer_on(_GAME);
+    }
+
+   SEQ_ONE_KEY(DV_S) {
+    tap_code(KC_MPLY);
+   }
+
+   SEQ_ONE_KEY(DV_QUOT) {
+            keymap_config.raw = eeconfig_read_keymap();
+      keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = false;
+            eeconfig_update_keymap(keymap_config.raw);
+   }
+
+   SEQ_ONE_KEY(DV_A) {
+            keymap_config.raw = eeconfig_read_keymap();
+      keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = true;
+            eeconfig_update_keymap(keymap_config.raw);
+   }
+  }
 }

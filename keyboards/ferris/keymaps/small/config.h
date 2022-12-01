@@ -27,3 +27,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define COMBO_COUNT 2
 #define COMBO_ONLY_FROM_LAYER 0
 #define COMBO_MUST_PRESS_IN_ORDER_PER_COMBO 0
+
+#define LEADER_TIMEOUT 300
