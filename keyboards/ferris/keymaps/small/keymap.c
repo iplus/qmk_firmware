@@ -23,6 +23,7 @@ enum ferris_layers {
 #define XX_TAB LT(_SYS, KC_TAB)
 #define XX_ESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
+#define SYS_K LT(_SYS, DV_K)
 #define SYS_H LT(_SYS, DV_H)
 #define CPY_PST LT(_SYS, KC_NO)
 #define SFT_SPC SFT_T(KC_SPACE)
@@ -61,7 +62,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_AL2] = LAYOUT(
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
-    DV_SCLN, DV_Q   , DV_J   , DV_K   , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
+    DV_SCLN, DV_Q   , DV_J   , SYS_K  , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
@@ -240,7 +241,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case SYS_U:
         case SYS_H:
             if (!record->event.pressed && intab) {
-		           intab = false;
+		       intab = false;
                last_keycode = KC_TAB;
                last_modifier = keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI;
                unregister_code(keycode_config(KC_LGUI));
@@ -273,6 +274,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 tap_code16( keymap_config.swap_lalt_lgui ? C(DV_V) : G(DV_V));
             }
             return false;
+        case KC_LCTL:
+            // swich off OSL on second press
+            if(!record->event.pressed && is_oneshot_layer_active()) {
+                clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+            }
+            break;
+        case SYS_K:
+            if(record->event.pressed && is_oneshot_layer_active()) {
+                clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
+            }
+            break;
     }
 
     process_repeat_key(keycode, record);
@@ -280,9 +292,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     oneshot_mod_state = get_oneshot_mods();
 
     // automaticaly move to _AL1 when symbol from _AL2 is pressed.
-    if(!record->event.pressed && IS_LAYER_ON(_AL2) && IS_LAYER_OFF(_SYS) && keycode != OSL(_AL2) && keycode != XX_TAB) {
-      layer_clear();
-    }
+    //if(!record->event.pressed && IS_LAYER_ON(_AL2) && IS_LAYER_OFF(_SYS) && keycode != OSL(_AL2) && keycode != XX_TAB) {
+    //  layer_clear();
+    //}
 
     return true;
 }
