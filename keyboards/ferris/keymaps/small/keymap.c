@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_QUOT, CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
     NM1_A  , NM2_O   , SMR_E  , SYS_U  , DV_I,        DV_D   , SYS_H  , SML_T  , FN2_N  , FN1_S,
     DV_SCLN, DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
-                                REPEAT, SFT_SPC,  OSL(_AL2), KC_LEAD
+                                REPEAT, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
   [_AL2] = LAYOUT(
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
@@ -134,7 +134,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_F12 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, KC_F1  , KC_F2  , KC_F3  , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
-  ),
+  )
 };
 
 enum combos {
@@ -232,7 +232,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            break;
         case XX_ENT:
             if (!record->tap.count && record->event.pressed) {
-                // hold
+                // on hold CTRL+ENT
                 tap_code16(keymap_config.swap_lalt_lgui ? C(KC_ENT) : G(KC_ENT));
                 return false;
             }
@@ -287,29 +287,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-LEADER_EXTERNS();
-
-void matrix_scan_user(void) {
-  LEADER_DICTIONARY() {
-    leading = false;
-    leader_end();
-
-    SEQ_ONE_KEY(DV_P) {
+void leader_end_user(void) {
+    if (leader_sequence_one_key(DV_P)) {
       send_string_with_delay(PASSWORD, 50);
+    } else if (leader_sequence_one_key(DV_L)) {
+      layer_on(_GAME);
+    } else if (leader_sequence_one_key(DV_S)) {
+      tap_code(KC_MPLY);
+    } else if (leader_sequence_one_key(DV_N)) {
+      tap_code(KC_MNXT);
+    } else if (leader_sequence_one_key(DV_H)) {
+      tap_code(KC_MPRV);
+    } else if (leader_sequence_one_key(DV_T)) {
+      tap_code(KC_MUTE);
+    } else if (leader_sequence_one_key(REPEAT)) {
+      keymap_config.raw = eeconfig_read_keymap();
+      keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !keymap_config.swap_lalt_lgui;
+      eeconfig_update_keymap(keymap_config.raw);
     }
-
-    SEQ_ONE_KEY(DV_L) {
-        layer_on(_GAME);
-    }
-
-   SEQ_ONE_KEY(DV_S) {
-    tap_code(KC_MPLY);
-   }
-
-   SEQ_ONE_KEY(REPEAT) {
-            keymap_config.raw = eeconfig_read_keymap();
-            keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !keymap_config.swap_lalt_lgui;
-            eeconfig_update_keymap(keymap_config.raw);
-   }
-  }
 }
