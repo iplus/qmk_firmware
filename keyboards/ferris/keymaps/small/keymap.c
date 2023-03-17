@@ -73,14 +73,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
   [_GAME] = LAYOUT(
-    KC_ESC , KC_Q, KC_W, KC_E, KC_R,              XXXXXXX, KC_F,    KC_UP  , KC_I    , TO(_AL1),
-    KC_TAB , KC_A, KC_S, KC_D, KC_F,              XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_LSFT, KC_Q, KC_W, KC_E, KC_R,              XXXXXXX, KC_F,    KC_UP  , KC_I    , KC_ESC,
+    KC_LCTL, KC_A, KC_S, KC_D, KC_F,              XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
     KC_LSFT, KC_Z, KC_X, KC_C, KC_V,              XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 MO(_NMG), KC_SPACE,  KC_LSFT, KC_LCTL
+                            LT(_NMG, KC_I), KC_SPACE,  KC_LSFT, KC_LGUI
   ),
   [_NMG] = LAYOUT(
-    _______, KC_4, KC_5, KC_6, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    KC_M   , KC_1, KC_2, KC_3, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
+    KC_LGUI, KC_X, KC_R, KC_F, XXXXXXX,      XXXXXXX, _______, _______, _______, TO(_AL1),
+    KC_TAB , KC_1, KC_2, KC_3, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
   ),
