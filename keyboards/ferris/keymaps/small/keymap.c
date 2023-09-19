@@ -73,15 +73,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
   [_GAME] = LAYOUT(
-    KC_LCTL, KC_Q, KC_W, KC_E, KC_R,              XXXXXXX, KC_G,    KC_UP  , KC_T    , KC_ESC,
-    KC_LSFT, KC_A, KC_S, KC_D, KC_F,              XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
-    KC_LSFT, KC_Z, KC_X, KC_C, KC_V,              XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
+    KC_LCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
+    KC_LSFT, KC_A, KC_S, KC_D, KC_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_LSFT, KC_Z, KC_X, KC_C, KC_V,              KC_N, KC_Y,    KC_M,    KC_J ,    KC_O,
                             LT(_NMG, KC_R), KC_SPACE,  KC_LSFT, KC_LGUI
   ),
   [_NMG] = LAYOUT(
-    KC_LGUI, KC_X, KC_C, KC_F, XXXXXXX,      XXXXXXX, _______, _______, _______, TO(_AL1),
-    KC_TAB , KC_1, KC_2, KC_3, XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    KC_LGUI, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
+    KC_TAB , KC_C , KC_X,  KC_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
+    KC_M,    KC_F5, KC_F6, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
   ),
 /*
@@ -280,11 +280,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
             }
             break;
+            /*
         case SYS_K:
             if(record->event.pressed && is_oneshot_layer_active()) {
                 clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);
             }
             break;
+            */
     }
 
     process_repeat_key(keycode, record);
@@ -309,7 +311,7 @@ void leader_end_user(void) {
     } else if (leader_sequence_one_key(DV_N)) {
       tap_code(KC_MNXT);
     } else if (leader_sequence_one_key(DV_H)) {
-      tap_code(KC_MPRV);
+      tap_code(KC_MPLY);
     } else if (leader_sequence_one_key(DV_T)) {
       tap_code(KC_MUTE);
     } else if (leader_sequence_one_key(REPEAT)) {
