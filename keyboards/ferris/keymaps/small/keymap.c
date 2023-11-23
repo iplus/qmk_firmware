@@ -218,6 +218,12 @@ uint8_t last_modifier = 0;
 uint8_t mod_state;
 uint8_t oneshot_mod_state;
 
+typedef struct {
+    uint16_t tap;
+    uint16_t hold;
+    uint16_t held;
+} tap_dance_tap_hold_t;
+
 void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
     if (keycode != REPEAT) {
         // Early return when holding down a pure layer key
@@ -240,6 +246,14 @@ void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
                     last_keycode = GET_TAP_KC(keycode);
                 }
                 break;
+            case QK_TAP_DANCE ... QK_TAP_DANCE_MAX:
+                if (record->event.pressed) {
+                    tap_dance_action_t *action;
+                    action = &tap_dance_actions[TD_INDEX(keycode)];
+                    tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
+                    last_keycode = tap_hold->tap;
+                }
+                break;    
             default:
                 if (record->event.pressed) {
                     last_keycode = keycode;
