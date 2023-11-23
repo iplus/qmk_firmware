@@ -11,8 +11,12 @@ enum ferris_layers {
   _SMR,
   _NM1,
   _NM2,
+  _NUM,
+  _FUN,
   _FN1,
   _FN2,
+  _AL, 
+  _SYSTAB,
   _SYS,
   _GAME,
   _NMG,
@@ -21,8 +25,11 @@ enum ferris_layers {
 #define XX_M LT(0, DV_M)
 #define XX_ENT LT(_SYS, KC_ENT)
 #define XX_TAB LT(_SYS, KC_TAB)
+#define XXX_TAB LT(_SYSTAB, KC_TAB)
 #define XX_ESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
+#define SYS_S LT(_SYS, DV_S)
+#define SYSL_U LT(_SYSTAB, DV_U)
 #define SYS_K LT(_SYS, DV_K)
 #define SYS_H LT(_SYS, DV_H)
 #define CPY_PST LT(_SYS, KC_NO)
@@ -37,12 +44,28 @@ enum ferris_layers {
 #define SML_T LT(_SML, DV_T)
 #define NM1_A LT(_NM1, DV_A)
 #define NM2_O LT(_NM2, DV_O)
+#define NUM_A LT(_NUM, DV_A)
+#define NUM_O LT(_NUM, DV_O)
+#define FUN_O LT(_FUN, DV_O)
+#define FUN_QUOT LT(_FUN, DV_QUOT)
 #define FN2_N LT(_FN2, DV_N)
 #define FN1_S LT(_FN1, DV_S)
 
 
 enum custom_keycodes {
     REPEAT = SAFE_RANGE
+};
+
+enum {
+    TD_ESC_L,
+    TD_ENT_S,
+    TD_TAB_A
+};
+tap_dance_action_t tap_dance_actions[] = {
+    // Tap once for Escape, twice for Caps Lock
+    [TD_ESC_L] = ACTION_TAP_DANCE_DOUBLE(DV_L, KC_ESC),
+    [TD_ENT_S] = ACTION_TAP_DANCE_DOUBLE(DV_S, KC_ENT),
+    [TD_TAB_A] = ACTION_TAP_DANCE_DOUBLE(DV_A, KC_TAB)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -55,9 +78,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   */
   [_AL1] = LAYOUT(
-    DV_QUOT, CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
-    NM1_A  , NM2_O   , SMR_E  , SYS_U  , DV_I,        DV_D   , SYS_H  , SML_T  , FN2_N  , FN1_S,
-    DV_SCLN, DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
+    FUN_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , TD(TD_ESC_L),
+    TD(TD_TAB_A), NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , TD(TD_ENT_S),
+    DV_SCLN     , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
                                 REPEAT, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
   [_AL2] = LAYOUT(
@@ -66,9 +89,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
+  [_SYSTAB] = LAYOUT(
+    KC_CAPS, DV_Q    , KC_PGUP, KC_END , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    XXX_TAB, DV_Q    , KC_PGDN, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
+                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
+  ),
   [_SYS] = LAYOUT(
     KC_CAPS, KC_HOME , KC_PGUP, KC_END  , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    XX_TAB , KC_VOLD , KC_PGDN, KC_VOLU , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    KC_TAB , KC_VOLD , KC_PGDN, KC_VOLU , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
@@ -103,6 +132,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
+  ),
+ // 
+  [_NUM] = LAYOUT(
+    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_8   ,
+    KC_PDOT, KC_PDOT, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_7   ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_LGUI, KC_LSFT,    DV_0, DV_9
+  ),
+  [_FUN] = LAYOUT(
+    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F4  , KC_F5  , KC_F6  , KC_F8  ,
+    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F7  ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_LGUI, KC_LSFT,    KC_F10, KC_F9
   ),
 // XXXX   4560
 // XXXX   1230
@@ -240,14 +282,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            break;
         case SYS_U:
         case SYS_H:
+        case SYSL_U:
             if (!record->event.pressed && intab) {
-		       intab = false;
+		           intab = false;
                last_keycode = KC_TAB;
                last_modifier = keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI;
                unregister_code(keycode_config(KC_LGUI));
                layer_clear();
                return false;
 	          }
+            break;
+        case XXX_TAB:
+            if(record->event.pressed) {
+              if(!intab) {
+                  intab = true;
+                  register_code(keycode_config(KC_LGUI));
+			            tap_code16(KC_TAB);
+                  return false;
+              }
+            }
             break;
         case XX_TAB:
             if (record->tap.count && record->event.pressed) {
