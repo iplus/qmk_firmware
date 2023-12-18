@@ -15,7 +15,7 @@ enum ferris_layers {
   _FUN,
   _FN1,
   _FN2,
-  _AL, 
+  _AL,
   _SYSTAB,
   _SYS,
   _GAME,
@@ -51,7 +51,6 @@ enum ferris_layers {
 #define FN2_N LT(_FN2, DV_N)
 #define FN1_S LT(_FN1, DV_S)
 
-
 enum custom_keycodes {
     REPEAT = SAFE_RANGE
 };
@@ -61,6 +60,10 @@ enum {
     TD_ENT_S,
     TD_TAB_A
 };
+
+#define XX_L TD(TD_ESC_L)
+#define XX_S TD(TD_ENT_S)
+
 tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_ESC_L] = ACTION_TAP_DANCE_DOUBLE(DV_L, KC_ESC),
@@ -78,8 +81,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   */
   [_AL1] = LAYOUT(
-    FUN_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , TD(TD_ESC_L),
-    TD(TD_TAB_A), NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , TD(TD_ENT_S),
+    FUN_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
+    TD(TD_TAB_A), NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , XX_S,
     DV_SCLN     , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
                                 REPEAT, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
@@ -133,7 +136,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
- // 
+ //
   [_NUM] = LAYOUT(
     _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_8   ,
     KC_PDOT, KC_PDOT, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_7   ,
@@ -253,7 +256,7 @@ void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
                     tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
                     last_keycode = tap_hold->tap;
                 }
-                break;    
+                break;
             default:
                 if (record->event.pressed) {
                     last_keycode = keycode;
@@ -372,6 +375,8 @@ void leader_end_user(void) {
     if (leader_sequence_one_key(DV_P)) {
       send_string_with_delay(PASSWORD, 50);
     } else if (leader_sequence_one_key(DV_L)) {
+      layer_on(_GAME);
+    } else if (leader_sequence_one_key(TD(TD_ESC_L))) {
       layer_on(_GAME);
     } else if (leader_sequence_one_key(DV_S)) {
       tap_code(KC_MPLY);
