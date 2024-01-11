@@ -48,6 +48,7 @@ enum ferris_layers {
 #define NUM_O LT(_NUM, DV_O)
 #define FUN_O LT(_FUN, DV_O)
 #define FUN_QUOT LT(_FUN, DV_QUOT)
+#define FUN_A LT(_FUN, DV_A)
 #define FN2_N LT(_FN2, DV_N)
 #define FN1_S LT(_FN1, DV_S)
 
@@ -63,6 +64,7 @@ enum {
 
 #define XX_L TD(TD_ESC_L)
 #define XX_S TD(TD_ENT_S)
+#define XX_TAB_A TD(TD_TAB_A)
 
 tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
@@ -81,9 +83,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   */
   [_AL1] = LAYOUT(
-    FUN_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
-    TD(TD_TAB_A), NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , XX_S,
-    DV_SCLN     , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
+    DV_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
+    FUN_A      , NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , XX_S,
+    DV_SCLN    , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
                                 REPEAT, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
   [_AL2] = LAYOUT(
