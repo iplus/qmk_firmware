@@ -84,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
   [_AL1] = LAYOUT(
     DV_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
-    FUN_A      , NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , XX_S,
+    FUN_A      , NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , DV_S,
     DV_SCLN    , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
                                 REPEAT, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
