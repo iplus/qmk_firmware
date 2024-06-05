@@ -2,7 +2,8 @@
 #include "keymap_dvorak.h"
 #include "quantum.h"
 #include "process_combo.h"
-#include "env.h"
+
+//#include "env.h"
 
 enum ferris_layers {
   _AL1,
@@ -52,8 +53,10 @@ enum ferris_layers {
 #define FN2_N LT(_FN2, DV_N)
 #define FN1_S LT(_FN1, DV_S)
 
+
 enum custom_keycodes {
-    REPEAT = SAFE_RANGE
+    REPEAT = SAFE_RANGE,
+    ALT_TAB
 };
 
 enum {
@@ -61,6 +64,7 @@ enum {
     TD_ENT_S,
     TD_TAB_A
 };
+
 
 #define XX_L TD(TD_ESC_L)
 #define XX_S TD(TD_ENT_S)
@@ -106,11 +110,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   ),
+  // qwerty
+  //[_GAME] = LAYOUT(
+  //  KC_LCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
+  //  KC_LSFT, KC_A, KC_S, KC_D, KC_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+  //  KC_LGUI, KC_Z, KC_X, KC_C, KC_B,              KC_N, KC_Y,    KC_M,    KC_J ,    KC_O,
+  //                LT(_NMG, KC_R), KC_SPACE,  KC_LSFT, KC_LGUI
+  //),
+  // dvorak
   [_GAME] = LAYOUT(
-    KC_LCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
-    KC_LSFT, KC_A, KC_S, KC_D, KC_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
-    KC_LGUI, KC_Z, KC_X, KC_C, KC_B,              KC_N, KC_Y,    KC_M,    KC_J ,    KC_O,
-                            LT(_NMG, KC_R), KC_SPACE,  KC_LSFT, KC_LGUI
+    KC_LCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
+    KC_LSFT, DV_A, DV_S, DV_D, DV_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_LGUI, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT,    KC_J ,    KC_M,
+                  LT(_NMG, DV_R), KC_SPACE,  ALT_TAB, TO(_AL1)
   ),
   //
   [_NUM] = LAYOUT(
@@ -127,8 +139,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_NMG] = LAYOUT(
     KC_LGUI, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
-    KC_TAB , KC_C , KC_X,  KC_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
-    KC_M,    KC_F5, KC_F6, KC_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+    KC_TAB , DV_C , DV_X,  DV_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
+    KC_M,    KC_F5, KC_F6, DV_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
   ),
 /*
@@ -359,6 +371,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             break;
             */
+         case ALT_TAB:
+            if (record->event.pressed) {
+              // when keycode QMKBEST is pressed
+              SEND_STRING(SS_DOWN(X_LALT));
+              SEND_STRING(SS_TAP(X_TAB));
+            } else {
+              SEND_STRING(SS_UP(X_LALT));
+            }
+            break;    
     }
 
     process_repeat_key(keycode, record);
@@ -375,7 +396,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void leader_end_user(void) {
     if (leader_sequence_one_key(DV_P)) {
-      send_string_with_delay(PASSWORD, 50);
+      //send_string_with_delay(PASSWORD, 50);
     } else if (leader_sequence_one_key(DV_L)) {
       layer_on(_GAME);
     } else if (leader_sequence_one_key(TD(TD_ESC_L))) {
@@ -392,5 +413,7 @@ void leader_end_user(void) {
       keymap_config.raw = eeconfig_read_keymap();
       keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !keymap_config.swap_lalt_lgui;
       eeconfig_update_keymap(keymap_config.raw);
+    } else if (leader_sequence_one_key(OSL(_AL2))) {
+      tap_code16(C(A(KC_DEL)));
     }
 }
