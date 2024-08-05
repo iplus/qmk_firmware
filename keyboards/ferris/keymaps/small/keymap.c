@@ -119,23 +119,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //),
   // dvorak
   [_GAME] = LAYOUT(
-    KC_LCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
+    KC_LCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_VOLU, KC_UP  , KC_VOLD , KC_ESC,
     KC_LSFT, DV_A, DV_S, DV_D, DV_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
-    KC_LGUI, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT,    KC_J ,    KC_M,
+    KC_LGUI, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT, C(DV_T) ,   KC_M,
                   LT(_NMG, DV_R), KC_SPACE,  ALT_TAB, TO(_AL1)
-  ),
-  //
-  [_NUM] = LAYOUT(
-    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_8   ,
-    KC_PDOT, KC_PDOT, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_7   ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,    DV_0, DV_9
-  ),
-  [_FUN] = LAYOUT(
-    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F4  , KC_F5  , KC_F6  , KC_F8  ,
-    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F7  ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,    KC_F10, KC_F9
   ),
   [_NMG] = LAYOUT(
     KC_LGUI, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
@@ -143,6 +130,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_M,    KC_F5, KC_F6, DV_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
   ),
+  //
+  [_NUM] = LAYOUT(
+    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
+    KC_PDOT, KC_PDOT, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_LGUI, KC_LSFT,    DV_0, DV_9
+  ),
+  [_FUN] = LAYOUT(
+    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
+    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_LGUI, KC_LSFT,    KC_F10, KC_F9
+  ), 
 /*
 []{}    +X*.
 <>()    -o/=
@@ -161,38 +161,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
-  ),
-// XXXX   4560
-// XXXX   1230
-  [_NM1] = LAYOUT(
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_0   ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
-  ),
-// XXXX   7890
-// XXXX   4560
-  [_NM2] = LAYOUT(
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_7   , DV_8   , DV_9   , DV_0   ,
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_4   , DV_5   , DV_6   , DV_0   ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
-  ),
-// 0456   XXXX
-// 0123   XXXX
-  [_FN1] = LAYOUT(
-    KC_F11 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    KC_F10 , KC_F1  , KC_F2  , KC_F3  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
-  ),
-// 0789   XXXX
-// 0456   XXXX
-  [_FN2] = LAYOUT(
-    KC_F13 , KC_F7  , KC_F8  , KC_F9  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    KC_F12 , KC_F4  , KC_F5  , KC_F6  , XXXXXXX,      XXXXXXX, _______, _______, _______, _______,
-    XXXXXXX, KC_F1  , KC_F2  , KC_F3  , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   )
 };
