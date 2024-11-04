@@ -36,6 +36,7 @@ enum ferris_layers {
 #define CPY_PST LT(_SYS, KC_NO)
 #define SFT_SPC SFT_T(KC_SPACE)
 #define CTL_COMM CTL_T(DV_COMM)
+#define CTL_BSPC CTL_T(KC_BSPC)
 #define ALT_DOT ALT_T(DV_DOT)
 #define GUI_P GUI_T(DV_P)
 #define GUI_G GUI_T(DV_G)
@@ -90,26 +91,59 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
     FUN_A      , NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , DV_S,
     DV_SCLN    , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
-                                REPEAT, SFT_SPC,  OSL(_AL2), QK_LEAD
+                                CTL_BSPC, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
   [_AL2] = LAYOUT(
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
     DV_SCLN, DV_Q   , DV_J   , SYS_K  , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
+                                 KC_LCTL, KC_LSFT,  KC_LGUI, KC_LALT
   ),
   [_SYSTAB] = LAYOUT(
-    KC_CAPS, DV_Q    , KC_PGUP, KC_END , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    KC_CAPS, KC_HOME , KC_PGUP, KC_END ,  XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     XXX_TAB, DV_Q    , KC_PGDN, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
+                                _______, KC_LSFT,   _______, KC_LALT
   ),
   [_SYS] = LAYOUT(
-    KC_CAPS, KC_HOME , KC_PGUP, KC_END  , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    KC_TAB , KC_VOLD , KC_PGDN, KC_VOLU , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    KC_CAPS, KC_VOLU , KC_PGUP, KC_VOLD , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    KC_TAB , KC_HOME , KC_PGDN, KC_END ,  XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
+                                 _______, KC_LSFT,  _______, KC_LALT
   ),
+  /*
+[]{}    +X*.
+<>()    -o/=
+*/
+  [_SML] = LAYOUT(
+    DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
+    DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, KC_LSFT,  _______, KC_LALT
+  ),
+/*
+;^X`    #@%/
+:$o~    $!&\
+*/
+  [_SMR] = LAYOUT(
+    DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
+    DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, KC_LSFT,  _______, KC_LALT
+  ),
+  //
+  [_NUM] = LAYOUT(
+    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
+    KC_PDOT, KC_PDOT, KC_LGUI, KC_LALT, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, KC_LSFT,    DV_0, DV_9
+  ),
+  [_FUN] = LAYOUT(
+    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
+    _______, _______, KC_LGUI, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, KC_LSFT,    KC_F10, KC_F9
+  ), 
   // qwerty
   //[_GAME] = LAYOUT(
   //  KC_LCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
@@ -129,39 +163,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB , DV_C , DV_X,  DV_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
     KC_M,    KC_F5, KC_F6, DV_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
-  ),
-  //
-  [_NUM] = LAYOUT(
-    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
-    KC_PDOT, KC_PDOT, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,    DV_0, DV_9
-  ),
-  [_FUN] = LAYOUT(
-    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
-    _______, _______, KC_LCTL, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,    KC_F10, KC_F9
-  ), 
-/*
-[]{}    +X*.
-<>()    -o/=
-*/
-  [_SML] = LAYOUT(
-    DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
-    DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
-  ),
-/*
-;^X`    #@%/
-:$o~    $!&\
-*/
-  [_SMR] = LAYOUT(
-    DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
-    DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LGUI, KC_LSFT,  KC_LCTL, KC_LALT
   )
 };
 
@@ -377,7 +378,7 @@ void leader_end_user(void) {
       tap_code(KC_MPLY);
     } else if (leader_sequence_one_key(DV_T)) {
       tap_code(KC_MUTE);
-    } else if (leader_sequence_one_key(REPEAT)) {
+    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC)) {
       keymap_config.raw = eeconfig_read_keymap();
       keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !keymap_config.swap_lalt_lgui;
       eeconfig_update_keymap(keymap_config.raw);
