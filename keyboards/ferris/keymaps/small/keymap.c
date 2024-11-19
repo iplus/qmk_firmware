@@ -293,7 +293,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	          }
             break;
         case XXX_TAB:
-            if(record->event.pressed) {
+            if(record->event.pressed && (!((MOD_BIT(KC_LCTL)) & get_mods()))) {
               if(!intab) {
                   intab = true;
                   register_code(keycode_config(KC_LGUI));
