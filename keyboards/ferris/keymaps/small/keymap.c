@@ -2,8 +2,19 @@
 #include "keymap_dvorak.h"
 #include "quantum.h"
 #include "process_combo.h"
+#include "print.h"
 
-//#include "env.h"
+// #include "env.h"
+
+#ifdef CONSOLE_ENABLE
+void keyboard_post_init_user(void) {
+    // Customise these values to desired behaviour
+    debug_enable   = true;
+    //debug_matrix   = true;
+    debug_keyboard = true;
+    // debug_mouse=true;
+}
+#endif
 
 enum ferris_layers {
   _AL1,
@@ -21,6 +32,7 @@ enum ferris_layers {
   _SYS,
   _GAME,
   _NMG,
+  _QWT,
 };
 
 #define XX_M LT(0, DV_M)
@@ -35,10 +47,10 @@ enum ferris_layers {
 #define SYS_H LT(_SYS, DV_H)
 #define CPY_PST LT(_SYS, KC_NO)
 #define SFT_SPC SFT_T(KC_SPACE)
-#define CTL_COMM CTL_T(DV_COMM)
-#define CTL_BSPC CTL_T(KC_BSPC)
-#define ALT_DOT ALT_T(DV_DOT)
-#define GUI_P GUI_T(DV_P)
+#define CTL_COMM LCTL_T(DV_COMM)
+#define CTL_BSPC RCTL_T(KC_BSPC)
+#define ALT_DOT LGUI_T(DV_DOT)
+#define GUI_P RALT_T(DV_P)
 #define GUI_G GUI_T(DV_G)
 #define ALT_C ALT_T(DV_C)
 #define CTL_R CTL_T(DV_R)
@@ -97,19 +109,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
     DV_SCLN, DV_Q   , DV_J   , SYS_K  , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
-                                 KC_LCTL, KC_LSFT,  KC_LGUI, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_LGUI, KC_LALT
   ),
   [_SYSTAB] = LAYOUT(
     KC_CAPS, KC_HOME , KC_PGUP, KC_END ,  XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     XXX_TAB, DV_Q    , KC_PGDN, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                _______, KC_LSFT,   _______, KC_LALT
+                                KC_RCTL, KC_LSFT,   KC_LGUI, KC_LALT
   ),
   [_SYS] = LAYOUT(
-    KC_CAPS, KC_VOLU , KC_PGUP, KC_VOLD , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    KC_CAPS, KC_VOLU , KC_PGUP, KC_VOLD , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_DEL , XX_ESC,
     KC_TAB , KC_HOME , KC_PGDN, KC_END ,  XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 _______, KC_LSFT,  _______, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_LGUI, KC_LALT
   ),
   /*
 []{}    +X*.
@@ -119,7 +131,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
     DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 _______, KC_LSFT,  _______, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_LGUI, KC_LALT
   ),
 /*
 ;^X`    #@%/
@@ -129,21 +141,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 _______, KC_LSFT,  _______, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_LGUI, KC_LALT
   ),
   //
   [_NUM] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
-    KC_PDOT, KC_PDOT, KC_LGUI, KC_LALT, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
+    KC_LCTL, KC_PDOT, KC_LGUI, KC_LALT, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 _______, KC_LSFT,    DV_0, DV_9
+                                 KC_RCTL, KC_LSFT,    DV_0, DV_9
   ),
   [_FUN] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
-    _______, _______, KC_LGUI, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
+    _______, KC_LCTL, KC_LGUI, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 _______, KC_LSFT,    KC_F10, KC_F9
-  ), 
+                                 KC_RCTL, KC_LSFT,    KC_F10, KC_F9
+  ),
   // qwerty
   //[_GAME] = LAYOUT(
   //  KC_LCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_G,    KC_UP  , KC_B    , KC_ESC,
@@ -163,6 +175,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB , DV_C , DV_X,  DV_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
     KC_M,    KC_F5, KC_F6, DV_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
+  ),
+  [_QWT] = LAYOUT(
+    KC_SCLN   , KC_COMM, KC_DOT, KC_P  , KC_Y,        KC_G   , KC_G  , KC_C  , KC_R  , KC_L,
+    KC_A      , KC_O   , KC_E  , KC_U  , KC_I,        KC_D   , KC_H  , KC_T  , KC_N  , KC_S,
+    KC_SCLN   , KC_Q   , KC_J  , KC_K  , KC_X,        KC_B   , KC_M   , KC_W , KC_V , KC_Z,
+                                CTL_BSPC, SFT_SPC,    ALT_TAB, TO(_AL1)
   )
 };
 
@@ -260,6 +278,9 @@ void process_repeat_key(uint16_t keycode, const keyrecord_t *record) {
 
 static bool intab = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CONSOLE_ENABLE
+    uprintf("KL: kc: 0x%04X, col: %2u, row: %2u, pressed: %u, time: %5u, int: %u, count: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed, record->event.time, record->tap.interrupted, record->tap.count);
+#endif
     switch (keycode) {
         case XX_M: // "Ь" on press, "Ъ" on hold
             if (!record->tap.count && record->event.pressed) {
@@ -276,7 +297,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case XX_ENT:
             if (!record->tap.count && record->event.pressed) {
                 // on hold CTRL+ENT
-                tap_code16(keymap_config.swap_lalt_lgui ? C(KC_ENT) : G(KC_ENT));
+                tap_code16(keymap_config.swap_lctl_lgui ? C(KC_ENT) : G(KC_ENT));
                 return false;
             }
            break;
@@ -348,7 +369,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             } else {
               SEND_STRING(SS_UP(X_LALT));
             }
-            break;    
+            break;
     }
 
     process_repeat_key(keycode, record);
@@ -367,9 +388,9 @@ void leader_end_user(void) {
     if (leader_sequence_one_key(DV_P)) {
       //send_string_with_delay(PASSWORD, 50);
     } else if (leader_sequence_one_key(DV_L)) {
-      layer_on(_GAME);
+      tap_code16(C(A(KC_DEL)));
     } else if (leader_sequence_one_key(TD(TD_ESC_L))) {
-      layer_on(_GAME);
+      tap_code16(C(A(KC_DEL)));
     } else if (leader_sequence_one_key(DV_S)) {
       tap_code(KC_MPLY);
     } else if (leader_sequence_one_key(DV_N)) {
@@ -378,11 +399,16 @@ void leader_end_user(void) {
       tap_code(KC_MPLY);
     } else if (leader_sequence_one_key(DV_T)) {
       tap_code(KC_MUTE);
-    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC)) {
+    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
       keymap_config.raw = eeconfig_read_keymap();
-      keymap_config.swap_lalt_lgui = keymap_config.swap_ralt_rgui = !keymap_config.swap_lalt_lgui;
+      keymap_config.swap_ralt_rgui = false;
+      keymap_config.swap_lctl_lgui = false;
+      keymap_config.swap_lalt_lgui =  /* keymap_config.swap_ralt_rgui = */ !keymap_config.swap_lalt_lgui;
+      keymap_config.swap_rctl_rgui = !keymap_config.swap_rctl_rgui;
       eeconfig_update_keymap(keymap_config.raw);
     } else if (leader_sequence_one_key(OSL(_AL2))) {
-      tap_code16(C(A(KC_DEL)));
+      layer_on(_GAME);
+    } else if (leader_sequence_one_key(DV_Q) || leader_sequence_one_key(KC_SPACE)) {
+      layer_on(_QWT);
     }
 }
