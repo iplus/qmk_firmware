@@ -115,13 +115,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_CAPS, KC_HOME , KC_PGUP, KC_END ,  XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     XXX_TAB, DV_Q    , KC_PGDN, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                KC_RCTL, KC_LSFT,   KC_LGUI, KC_LALT
+                                KC_LCTL, KC_LSFT,   KC_LGUI, KC_LALT
   ),
   [_SYS] = LAYOUT(
     KC_CAPS, KC_VOLU , KC_PGUP, KC_VOLD , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_DEL , XX_ESC,
     KC_TAB , KC_HOME , KC_PGDN, KC_END ,  XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 KC_RCTL, KC_LSFT,  KC_LGUI, KC_LALT
+                                 KC_LCTL, KC_LSFT,  KC_LGUI, KC_LALT
   ),
   /*
 []{}    +X*.
