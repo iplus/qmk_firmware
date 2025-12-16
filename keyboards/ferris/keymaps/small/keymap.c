@@ -49,10 +49,10 @@ enum ferris_layers {
 #define SFT_SPC SFT_T(KC_SPACE)
 #define CTL_COMM LCTL_T(DV_COMM)
 #define CTL_BSPC RCTL_T(KC_BSPC)
-#define ALT_DOT LGUI_T(DV_DOT)
-#define GUI_P RALT_T(DV_P)
-#define GUI_G GUI_T(DV_G)
-#define ALT_C ALT_T(DV_C)
+#define ALT_DOT RALT_T(DV_DOT)
+#define GUI_P RGUI_T(DV_P)
+#define GUI_G RGUI_T(DV_G)
+#define ALT_C RALT_T(DV_C)
 #define CTL_R CTL_T(DV_R)
 #define SMR_E LT(_SMR, DV_E)
 #define SML_T LT(_SML, DV_T)
@@ -109,19 +109,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
     DV_SCLN, DV_Q   , DV_J   , SYS_K  , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
-                                 KC_RCTL, KC_LSFT,  KC_LGUI, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   [_SYSTAB] = LAYOUT(
     KC_CAPS, KC_HOME , KC_PGUP, KC_END ,  XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     XXX_TAB, DV_Q    , KC_PGDN, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                KC_LCTL, KC_LSFT,   KC_LGUI, KC_LALT
+                                KC_RCTL, KC_LSFT,   KC_RGUI, KC_RALT
   ),
   [_SYS] = LAYOUT(
     KC_CAPS, KC_VOLU , KC_PGUP, KC_VOLD , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_DEL , XX_ESC,
     KC_TAB , KC_HOME , KC_PGDN, KC_END ,  XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 KC_LCTL, KC_LSFT,  KC_LGUI, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   /*
 []{}    +X*.
@@ -167,7 +167,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_GAME] = LAYOUT(
     KC_LCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_VOLU, KC_UP  , KC_VOLD , KC_ESC,
     KC_LSFT, DV_A, DV_S, DV_D, DV_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
-    KC_LGUI, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT, C(DV_T) ,   KC_M,
+    KC_LALT, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT, C(DV_T) ,   KC_M,
                   LT(_NMG, DV_R), KC_SPACE,  ALT_TAB, TO(_AL1)
   ),
   [_NMG] = LAYOUT(
@@ -290,7 +290,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            break;
         case XX_ESC:
             if (!record->tap.count && record->event.pressed) {
-                tap_code16(KC_PSCR);
+                tap_code16(keymap_config.swap_lctl_lgui ?  KC_PSCR : C(S(KC_1)));
                 return false;
             }
            break;
@@ -308,16 +308,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 		           intab = false;
                last_keycode = KC_TAB;
                last_modifier = keymap_config.swap_lalt_lgui ? MOD_MASK_ALT : MOD_MASK_GUI;
-               unregister_code(keycode_config(KC_LGUI));
+               unregister_code(keycode_config(KC_LALT));
                layer_clear();
                return false;
 	          }
             break;
         case XXX_TAB:
-            if(record->event.pressed && (!((MOD_BIT(KC_LCTL)) & get_mods()))) {
+            if(record->event.pressed && (!((MOD_BIT(KC_RCTL)) & get_mods())) ) {
               if(!intab) {
                   intab = true;
-                  register_code(keycode_config(KC_LGUI));
+                  register_code(keycode_config(KC_LALT));
 			            tap_code16(KC_TAB);
                   return false;
               }
@@ -342,10 +342,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case CPY_PST:
             if (record->tap.count && record->event.pressed) {
                 // Intercept tap function to send Ctrl-C
-                tap_code16( keymap_config.swap_lalt_lgui ? C(DV_C) : G(DV_C));
+                tap_code16( keymap_config.swap_lalt_lgui ? G(DV_C) : C(DV_C));
             } else if (record->event.pressed) {
                 // Intercept hold function to send Ctrl-V
-                tap_code16( keymap_config.swap_lalt_lgui ? C(DV_V) : G(DV_V));
+                tap_code16( keymap_config.swap_lalt_lgui ? G(DV_V) : C(DV_V));
             }
             return false;
         case KC_LCTL:
@@ -364,10 +364,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
          case ALT_TAB:
             if (record->event.pressed) {
               // when keycode QMKBEST is pressed
-              SEND_STRING(SS_DOWN(X_LALT));
+              if (keymap_config.swap_lalt_lgui) {
+                SEND_STRING(SS_DOWN(X_LALT));
+              } else {
+                SEND_STRING(SS_DOWN(X_LGUI));
+              }
               SEND_STRING(SS_TAP(X_TAB));
             } else {
-              SEND_STRING(SS_UP(X_LALT));
+              if (keymap_config.swap_lalt_lgui) {
+                SEND_STRING(SS_UP(X_LALT));
+              } else {
+                SEND_STRING(SS_UP(X_LGUI));
+              }
             }
             break;
     }
