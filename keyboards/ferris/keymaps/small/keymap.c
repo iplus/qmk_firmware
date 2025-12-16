@@ -6,15 +6,23 @@
 
 // #include "env.h"
 
-#ifdef CONSOLE_ENABLE
 void keyboard_post_init_user(void) {
+    // Ensure RGUI is always GUI (never swapped with RALT)
+    keymap_config.raw = eeconfig_read_keymap();
+    keymap_config.swap_ralt_rgui = false;
+    keymap_config.swap_rctl_rgui = false;
+    keymap_config.swap_lalt_lgui = false;
+    keymap_config.swap_lctl_lgui = false;
+    eeconfig_update_keymap(keymap_config.raw);
+
+#ifdef CONSOLE_ENABLE
     // Customise these values to desired behaviour
     debug_enable   = true;
     //debug_matrix   = true;
     debug_keyboard = true;
     // debug_mouse=true;
-}
 #endif
+}
 
 enum ferris_layers {
   _AL1,
@@ -47,13 +55,13 @@ enum ferris_layers {
 #define SYS_H LT(_SYS, DV_H)
 #define CPY_PST LT(_SYS, KC_NO)
 #define SFT_SPC SFT_T(KC_SPACE)
-#define CTL_COMM LCTL_T(DV_COMM)
-#define CTL_BSPC RCTL_T(KC_BSPC)
+#define CTL_COMM RCTL_T(DV_COMM)
+#define CTL_BSPC LCTL_T(KC_BSPC)
 #define ALT_DOT RALT_T(DV_DOT)
 #define GUI_P RGUI_T(DV_P)
 #define GUI_G RGUI_T(DV_G)
 #define ALT_C RALT_T(DV_C)
-#define CTL_R CTL_T(DV_R)
+#define CTL_R RCTL_T(DV_R)
 #define SMR_E LT(_SMR, DV_E)
 #define SML_T LT(_SML, DV_T)
 #define NM1_A LT(_NM1, DV_A)
@@ -131,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
     DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LCTL, KC_LSFT,  KC_LGUI, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
 /*
 ;^X`    #@%/
@@ -141,20 +149,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LCTL, KC_LSFT,  KC_LGUI, KC_LALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   //
   [_NUM] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
     KC_LCTL, KC_PDOT, KC_LGUI, KC_LALT, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LCTL, KC_LSFT,    DV_0, DV_9
+                                 KC_RCTL, KC_LSFT,    DV_0, DV_9
   ),
   [_FUN] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
     _______, KC_LCTL, KC_LGUI, KC_LALT, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F11, KC_F12, KC_F13, KC_F14,
-                                 KC_LCTL, KC_LSFT,    KC_F10, KC_F9
+                                 KC_RCTL, KC_LSFT,    KC_F10, KC_F9
   ),
   // qwerty
   //[_GAME] = LAYOUT(
@@ -314,7 +322,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 	          }
             break;
         case XXX_TAB:
-            if(record->event.pressed && (!((MOD_BIT(KC_RCTL)) & get_mods())) ) {
+            if(record->event.pressed && (!((MOD_BIT(KC_LCTL)) & get_mods())) ) {
               if(!intab) {
                   intab = true;
                   register_code(keycode_config(KC_LALT));
@@ -410,9 +418,9 @@ void leader_end_user(void) {
     } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
       keymap_config.raw = eeconfig_read_keymap();
       keymap_config.swap_ralt_rgui = false;
-      keymap_config.swap_lctl_lgui = false;
-      keymap_config.swap_lalt_lgui =  /* keymap_config.swap_ralt_rgui = */ !keymap_config.swap_lalt_lgui;
-      keymap_config.swap_rctl_rgui = !keymap_config.swap_rctl_rgui;
+      keymap_config.swap_rctl_rgui = false;
+      keymap_config.swap_lalt_lgui = !keymap_config.swap_lalt_lgui;
+      keymap_config.swap_lctl_lgui = !keymap_config.swap_lctl_lgui;
       eeconfig_update_keymap(keymap_config.raw);
     } else if (leader_sequence_one_key(OSL(_AL2))) {
       layer_on(_GAME);
