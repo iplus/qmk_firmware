@@ -11,8 +11,8 @@ void keyboard_post_init_user(void) {
     keymap_config.raw = eeconfig_read_keymap();
     keymap_config.swap_ralt_rgui = false;
     keymap_config.swap_rctl_rgui = false;
-    keymap_config.swap_lalt_lgui = false;
-    keymap_config.swap_lctl_lgui = false;
+    keymap_config.swap_lalt_lgui = true;
+    keymap_config.swap_lctl_lgui = true;
     eeconfig_update_keymap(keymap_config.raw);
 
 #ifdef CONSOLE_ENABLE
@@ -36,11 +36,11 @@ enum ferris_layers {
   _FN1,
   _FN2,
   _AL,
+  _QWT,
   _SYSTAB,
   _SYS,
   _GAME,
   _NMG,
-  _QWT,
 };
 
 #define XX_M LT(0, DV_M)
@@ -73,7 +73,14 @@ enum ferris_layers {
 #define FUN_A LT(_FUN, DV_A)
 #define FN2_N LT(_FN2, DV_N)
 #define FN1_S LT(_FN1, DV_S)
-
+#define FUN_KC_A LT(_FUN, KC_A)
+#define NUM_KC_O LT(_NUM, KC_O)
+#define SMR_KC_E LT(_SMR, KC_E)
+#define SYSL_KC_U LT(_SYSTAB, KC_U)
+#define SML_KC_H LT(_SML, KC_H)
+#define CTL_KC_COMM RCTL_T(KC_COMM)
+#define ALT_KC_DOT RALT_T(KC_DOT)
+#define GUI_KC_P RGUI_T(KC_P)
 
 enum custom_keycodes {
     REPEAT = SAFE_RANGE,
@@ -185,11 +192,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  _______, _______,  _______, _______
   ),
   [_QWT] = LAYOUT(
-    KC_SCLN   , KC_COMM, KC_DOT, KC_P  , KC_Y,        KC_G   , KC_G  , KC_C  , KC_R  , KC_L,
-    KC_A      , KC_O   , KC_E  , KC_U  , KC_I,        KC_D   , KC_H  , KC_T  , KC_N  , KC_S,
+    KC_SCLN   , CTL_KC_COMM, ALT_KC_DOT, GUI_KC_P  , KC_Y,        KC_G   , KC_G  , KC_C  , KC_R  , KC_L,
+    FUN_KC_A  , NUM_KC_O, SMR_KC_E, SYSL_KC_U  , KC_I,        KC_D   , SML_KC_H  , KC_T  , KC_N  , KC_S,
     KC_SCLN   , KC_Q   , KC_J  , KC_K  , KC_X,        KC_B   , KC_M   , KC_W , KC_V , KC_Z,
                                 CTL_BSPC, SFT_SPC,    ALT_TAB, TO(_AL1)
-  )
+  ),
 };
 
 enum combos {
@@ -298,14 +305,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
            break;
         case XX_ESC:
             if (!record->tap.count && record->event.pressed) {
-                tap_code16(keymap_config.swap_lctl_lgui ?  KC_PSCR : C(S(KC_1)));
+                tap_code16(keymap_config.swap_lctl_lgui ?  C(S(KC_1)) : KC_PSCR);
                 return false;
             }
            break;
         case XX_ENT:
             if (!record->tap.count && record->event.pressed) {
                 // on hold CTRL+ENT
-                tap_code16(keymap_config.swap_lctl_lgui ? C(KC_ENT) : G(KC_ENT));
+                tap_code16(keymap_config.swap_lctl_lgui ? G(KC_ENT) : C(KC_ENT));
                 return false;
             }
            break;
