@@ -180,13 +180,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //),
   // dvorak
   [_GAME] = LAYOUT(
-    KC_LCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_VOLU, KC_UP  , KC_VOLD , KC_ESC,
-    KC_LSFT, DV_A, DV_S, DV_D, DV_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
-    KC_LALT, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT, C(DV_T) ,   KC_M,
+    KC_RCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_VOLD, KC_UP  , KC_VOLU , KC_ESC,
+    KC_RSFT, DV_A, DV_S, DV_D, DV_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_RALT, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT, C(DV_T) ,   KC_M,
                   LT(_NMG, DV_R), KC_SPACE,  ALT_TAB, TO(_AL1)
   ),
   [_NMG] = LAYOUT(
-    KC_LGUI, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
+    DV_Z, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
     KC_TAB , DV_C , DV_X,  DV_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
     KC_M,    KC_F5, KC_F6, DV_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
@@ -379,14 +379,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
          case ALT_TAB:
             if (record->event.pressed) {
               // when keycode QMKBEST is pressed
-              if (keymap_config.swap_lalt_lgui) {
+              if (!keymap_config.swap_lalt_lgui) {
                 SEND_STRING(SS_DOWN(X_LALT));
               } else {
                 SEND_STRING(SS_DOWN(X_LGUI));
               }
               SEND_STRING(SS_TAP(X_TAB));
             } else {
-              if (keymap_config.swap_lalt_lgui) {
+              if (!keymap_config.swap_lalt_lgui) {
                 SEND_STRING(SS_UP(X_LALT));
               } else {
                 SEND_STRING(SS_UP(X_LGUI));
