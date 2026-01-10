@@ -187,7 +187,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_NMG] = LAYOUT(
     DV_Z, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
-    KC_TAB , DV_C , DV_X,  DV_F,    KC_ENT,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
+    KC_TAB , DV_C , DV_X,  DV_F,    KC_I,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
     KC_M,    KC_F5, KC_F6, DV_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, _______
   ),
