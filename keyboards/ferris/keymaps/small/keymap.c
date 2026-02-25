@@ -56,7 +56,7 @@ enum ferris_layers {
 #define CPY_PST LT(_SYS, KC_NO)
 #define SFT_SPC SFT_T(KC_SPACE)
 #define CTL_COMM RCTL_T(DV_COMM)
-#define CTL_BSPC LCTL_T(KC_BSPC)
+#define CTL_BSPC LCTL_T(KC_MS_BTN1)
 #define ALT_DOT RALT_T(DV_DOT)
 #define GUI_P RGUI_T(DV_P)
 #define GUI_G RGUI_T(DV_G)
@@ -161,15 +161,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //
   [_NUM] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
-    KC_RALT, KC_PDOT, KC_RGUI, KC_RCTL, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
+    KC_RALT, KC_PDOT, KC_WH_U, KC_WH_D, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_LCTL, KC_LSFT,    DV_0, DV_9
+                                 KC_RCTL, KC_LSFT,    DV_0, DV_9
   ),
   [_FUN] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
-    _______, KC_RALT, KC_RGUI, KC_RCTL, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
+    _______, KC_RGUI, KC_RALT, KC_RCTL, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F11, KC_F12, KC_F13, KC_F14,
-                                 KC_LCTL, KC_LSFT,    KC_F10, KC_F9
+                                 KC_RCTL, KC_LSFT,    KC_F10, KC_F9
   ),
   // qwerty
   //[_GAME] = LAYOUT(
