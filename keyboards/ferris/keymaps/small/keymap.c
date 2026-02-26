@@ -124,19 +124,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LBRC, DV_X   , DV_I   , DV_Y   , XXXXXXX,      XXXXXXX, DV_F   , DV_D   , DV_B   , KC_QUOT,
     DV_SCLN, DV_Q   , DV_J   , SYS_K  , XXXXXXX,      XXXXXXX, XX_M   , DV_W   , DV_V   , DV_Z,
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
-                                 KC_RGUI, KC_LSFT,  KC_RCTL, KC_RALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   [_SYSTAB] = LAYOUT(
     KC_CAPS, KC_MS_BTN3 , CPY_PST   , XXXXXXX , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     XXX_TAB, KC_MS_BTN2 , KC_MS_BTN1, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, DV_Q    , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                KC_RGUI, KC_LSFT,   KC_RCTL, KC_RALT
+                                KC_RCTL, KC_LSFT,   KC_RGUI, KC_RALT
   ),
   [_SYS] = LAYOUT(
     KC_CAPS, KC_VOLU , KC_PGUP, KC_VOLD , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_DEL , XX_ESC,
     KC_TAB , KC_HOME , KC_PGDN, KC_END ,  XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
-                                 KC_RGUI, KC_LSFT,  KC_RCTL, KC_RALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   /*
 []{}    +X*.
@@ -146,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
     DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_RGUI, KC_LSFT,  KC_RCTL, KC_RALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
 /*
 ;^X`    #@%/
@@ -156,7 +156,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
     DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_RGUI, KC_LSFT,  KC_RCTL, KC_RALT
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   //
   [_NUM] = LAYOUT(
@@ -433,5 +433,7 @@ void leader_end_user(void) {
       layer_on(_GAME);
     } else if (leader_sequence_one_key(DV_Q) || leader_sequence_one_key(KC_SPACE)) {
       layer_on(_QWT);
+    } else if (leader_sequence_one_key(QK_LEAD)) {
+      tap_code(KC_ESC);
     }
 }
