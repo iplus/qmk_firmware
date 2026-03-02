@@ -53,6 +53,7 @@ enum ferris_layers {
 #define SYSL_U LT(_SYSTAB, DV_U)
 #define SYS_K LT(_SYS, DV_K)
 #define SYS_H LT(_SYS, DV_H)
+#define SYS_N LT(_SYS, DV_N)
 #define CPY_PST LT(_SYS, KC_NO)
 #define SFT_SPC SFT_T(KC_SPACE)
 #define CTL_COMM RCTL_T(DV_COMM)
@@ -116,7 +117,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   */
   [_AL1] = LAYOUT(
     DV_QUOT    , CTL_COMM, ALT_DOT, GUI_P  , DV_Y,        DV_F   , GUI_G  , ALT_C  , CTL_R  , DV_L,
-    FUN_A      , NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , DV_N   , DV_S,
+    FUN_A      , NUM_O   , SMR_E  , SYSL_U , DV_I,        DV_D   , SYS_H  , SML_T  , SYS_N   , DV_S,
     DV_SCLN    , DV_Q    , DV_J   , DV_K   , DV_X,        DV_B   , XX_M   , DV_W   , DV_V   , DV_Z,
                                 CTL_BSPC, SFT_SPC,  OSL(_AL2), QK_LEAD
   ),
