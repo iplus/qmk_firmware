@@ -55,7 +55,8 @@ enum ferris_layers {
 #define SYS_H LT(_SYS, DV_H)
 #define SYS_N LT(_SYS, DV_N)
 #define CPY_PST LT(_SYS, KC_NO)
-#define SFT_SPC SFT_T(KC_SPACE)
+// SFT_SPC: tap = Space, hold = Shift, double-tap = Alt+Tab
+#define SFT_SPC TD(TD_SFT_SPC)
 #define CTL_COMM RCTL_T(DV_COMM)
 #define CTL_BSPC LCTL_T(KC_MS_BTN1)
 #define ALT_DOT RALT_T(DV_DOT)
@@ -91,7 +92,8 @@ enum custom_keycodes {
 enum {
     TD_ESC_L,
     TD_ENT_S,
-    TD_TAB_A
+    TD_TAB_A,
+    TD_SFT_SPC
 };
 
 
@@ -99,11 +101,52 @@ enum {
 #define XX_S TD(TD_ENT_S)
 #define XX_TAB_A TD(TD_TAB_A)
 
+// Helper: send Alt+Tab (or Cmd+Tab when swap_lalt_lgui)
+static void tap_alt_tab(void) {
+    keymap_config.raw = eeconfig_read_keymap();
+    if (!keymap_config.swap_lalt_lgui) {
+        SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_TAB) SS_UP(X_LALT));
+    } else {
+        SEND_STRING(SS_DOWN(X_LGUI) SS_TAP(X_TAB) SS_UP(X_LGUI));
+    }
+}
+
+enum {
+    SFT_SPC_SINGLE_TAP,
+    SFT_SPC_SINGLE_HOLD,
+    SFT_SPC_DOUBLE_TAP
+};
+
+static int sft_spc_tap_state;
+
+static void sft_spc_finished(tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        if (state->pressed) {
+            sft_spc_tap_state = SFT_SPC_SINGLE_HOLD;
+            register_mods(MOD_BIT(KC_LSFT));
+        } else {
+            sft_spc_tap_state = SFT_SPC_SINGLE_TAP;
+            tap_code(KC_SPACE);
+        }
+    } else {
+        sft_spc_tap_state = SFT_SPC_DOUBLE_TAP;
+        tap_alt_tab();
+    }
+}
+
+static void sft_spc_reset(tap_dance_state_t *state, void *user_data) {
+    if (sft_spc_tap_state == SFT_SPC_SINGLE_HOLD) {
+        unregister_mods(MOD_BIT(KC_LSFT));
+    }
+    sft_spc_tap_state = 0;
+}
+
 tap_dance_action_t tap_dance_actions[] = {
     // Tap once for Escape, twice for Caps Lock
     [TD_ESC_L] = ACTION_TAP_DANCE_DOUBLE(DV_L, KC_ESC),
     [TD_ENT_S] = ACTION_TAP_DANCE_DOUBLE(DV_S, KC_ENT),
-    [TD_TAB_A] = ACTION_TAP_DANCE_DOUBLE(DV_A, KC_TAB)
+    [TD_TAB_A] = ACTION_TAP_DANCE_DOUBLE(DV_A, KC_TAB),
+    [TD_SFT_SPC] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, sft_spc_finished, sft_spc_reset)
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
