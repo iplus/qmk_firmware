@@ -463,7 +463,7 @@ void leader_end_user(void) {
     } else if (leader_sequence_one_key(DV_N)) {
       tap_code(KC_MNXT);
     } else if (leader_sequence_one_key(DV_H)) {
-      tap_code(KC_MPLY);
+      tap_code(KC_MS_BTN4);
     } else if (leader_sequence_one_key(DV_T)) {
       tap_code(KC_MUTE);
     } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
