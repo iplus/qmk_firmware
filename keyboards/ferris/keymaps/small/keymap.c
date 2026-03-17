@@ -8,12 +8,12 @@
 
 void keyboard_post_init_user(void) {
     // Ensure RGUI is always GUI (never swapped with RALT)
-    keymap_config.raw = eeconfig_read_keymap();
+    eeconfig_read_keymap(&keymap_config);
     keymap_config.swap_ralt_rgui = false;
     keymap_config.swap_rctl_rgui = false;
     keymap_config.swap_lalt_lgui = true;
     keymap_config.swap_lctl_lgui = true;
-    eeconfig_update_keymap(keymap_config.raw);
+    eeconfig_update_keymap(&keymap_config);
 
 #ifdef CONSOLE_ENABLE
     // Customise these values to desired behaviour
@@ -58,7 +58,7 @@ enum ferris_layers {
 // SFT_SPC: tap = Space, hold = Shift, double-tap = Alt+Tab
 #define SFT_SPC TD(TD_SFT_SPC)
 #define CTL_COMM RCTL_T(DV_COMM)
-#define CTL_BSPC LCTL_T(KC_MS_BTN1)
+#define CTL_BSPC LCTL_T(MS_BTN1)
 #define ALT_DOT RALT_T(DV_DOT)
 #define GUI_P RGUI_T(DV_P)
 #define GUI_G RGUI_T(DV_G)
@@ -103,7 +103,7 @@ enum {
 
 // Helper: send Alt+Tab (or Cmd+Tab when swap_lalt_lgui)
 static void tap_alt_tab(void) {
-    keymap_config.raw = eeconfig_read_keymap();
+    eeconfig_read_keymap(&keymap_config);
     if (!keymap_config.swap_lalt_lgui) {
         SEND_STRING(SS_DOWN(X_LALT) SS_TAP(X_TAB) SS_UP(X_LALT));
     } else {
@@ -171,8 +171,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
   [_SYSTAB] = LAYOUT(
-    KC_CAPS, KC_MS_BTN3 , CPY_PST   , XXXXXXX , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
-    XXX_TAB, KC_MS_BTN2 , KC_MS_BTN1, _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
+    KC_CAPS, MS_BTN3    , CPY_PST   , XXXXXXX , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
+    XXX_TAB, MS_BTN2    , MS_BTN1   , _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
     XXXXXXX, DV_Q    , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
                                 KC_RCTL, KC_LSFT,   KC_RGUI, KC_RALT
   ),
@@ -205,7 +205,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //
   [_NUM] = LAYOUT(
     _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
-    KC_RALT, KC_PDOT, KC_WH_U, KC_WH_D, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
+    KC_RALT, KC_PDOT, MS_WHLU, MS_WHLD, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  KC_RCTL, KC_LSFT,    DV_0, DV_9
   ),
@@ -261,12 +261,11 @@ const key_override_t volu_key_override = ko_make_basic(MOD_MASK_CTRL, KC_PGUP, K
 const key_override_t vold_key_override = ko_make_basic(MOD_MASK_CTRL, KC_PGDN, KC_VOLD);
 
 // This globally defines all key overrides to be used
-const key_override_t **key_overrides = (const key_override_t *[]){
+const key_override_t *const key_overrides[] = {
     &delete_key_override,
     &play_key_override,
     &volu_key_override,
     &vold_key_override,
-    NULL // Null terminate the array of overrides!
 };
 
 
@@ -463,16 +462,16 @@ void leader_end_user(void) {
     } else if (leader_sequence_one_key(DV_N)) {
       tap_code(KC_MNXT);
     } else if (leader_sequence_one_key(DV_H)) {
-      tap_code(KC_MS_BTN4);
+      tap_code(MS_BTN4);
     } else if (leader_sequence_one_key(DV_T)) {
       tap_code(KC_MUTE);
     } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
-      keymap_config.raw = eeconfig_read_keymap();
+      eeconfig_read_keymap(&keymap_config);
       keymap_config.swap_ralt_rgui = false;
       keymap_config.swap_rctl_rgui = false;
       keymap_config.swap_lalt_lgui = !keymap_config.swap_lalt_lgui;
       keymap_config.swap_lctl_lgui = !keymap_config.swap_lctl_lgui;
-      eeconfig_update_keymap(keymap_config.raw);
+      eeconfig_update_keymap(&keymap_config);
     } else if (leader_sequence_one_key(OSL(_AL2))) {
       layer_on(_GAME);
     } else if (leader_sequence_one_key(DV_Q) || leader_sequence_one_key(KC_SPACE)) {
