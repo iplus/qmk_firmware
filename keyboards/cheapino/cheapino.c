@@ -27,7 +27,7 @@ uint32_t flash_led(uint32_t next_trigger_time, void *cb_arg) {
     }
 }
 
-void keyboard_post_init_user(void) {
+void keyboard_post_init_kb(void) {
     //debug_enable=true;
     //debug_matrix=true;
     //debug_keyboard=true;
@@ -38,8 +38,12 @@ void keyboard_post_init_user(void) {
     _saturation = rgblight_get_sat();
     _value = rgblight_get_val();
 
-    // Flash a little on start
+    // Flash a little on start (keymaps can set CHEAPINO_SKIP_RGB_BOOT_FLASH to skip).
+#ifndef CHEAPINO_SKIP_RGB_BOOT_FLASH
     defer_exec(50, flash_led, NULL);
+#endif
+
+    keyboard_post_init_user();
 }
 
 // Make the builtin RGB led show different colors per layer:
