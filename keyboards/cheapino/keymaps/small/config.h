@@ -11,3 +11,8 @@
 #ifndef CHEAPINO_RGB_STATUS_VAL
 #define CHEAPINO_RGB_STATUS_VAL 30
 #endif
+
+// Faint green when swap_lctl_lgui is off (Windows mapping).
+#ifndef CHEAPINO_RGB_WIN_VAL
+#define CHEAPINO_RGB_WIN_VAL 4
+#endif

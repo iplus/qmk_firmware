@@ -13,7 +13,7 @@
 #define PASSWORD ""
 #endif
 
-/** Caps / _GAME / _QWT status LED (single WS2812); default is off.
+/** Caps / _GAME / _QWT / Windows-mode status LED (single WS2812); default is off.
  *  Pass explicit \p layers from layer_state_set_user: global layer_state is
  *  updated only after that hook returns, so reading layer_state there is stale.
  */
@@ -31,7 +31,12 @@ static void cheapino_rgb_status_sync_from(layer_state_t layers) {
     }
     if (layer_state_cmp(layers, _GAME) || layer_state_cmp(layers, _NMG)) {
         rgblight_enable_noeeprom();
-        rgblight_sethsv_noeeprom(85, 255, CHEAPINO_RGB_STATUS_VAL); // green
+        rgblight_sethsv_noeeprom(0, 255, CHEAPINO_RGB_STATUS_VAL); // red
+        return;
+    }
+    if (!keymap_config.swap_lctl_lgui) {
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(85, 255, CHEAPINO_RGB_WIN_VAL); // faint green (Windows)
         return;
     }
     rgblight_sethsv_noeeprom(0, 0, 0);
@@ -287,13 +292,14 @@ void leader_end_user(void) {
         tap_code(MS_BTN4);
     } else if (leader_sequence_one_key(DV_T)) {
         tap_code(KC_MUTE);
-    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
+    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(MS_BTN1) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
         eeconfig_read_keymap(&keymap_config);
         keymap_config.swap_ralt_rgui = false;
         keymap_config.swap_rctl_rgui = false;
         keymap_config.swap_lalt_lgui = !keymap_config.swap_lalt_lgui;
         keymap_config.swap_lctl_lgui = !keymap_config.swap_lctl_lgui;
         eeconfig_update_keymap(&keymap_config);
+        cheapino_rgb_status_sync();
     } else if (leader_sequence_one_key(OSL(_AL2))) {
         layer_on(_GAME);
     } else if (leader_sequence_one_key(DV_Q) || leader_sequence_one_key(KC_SPACE)) {

@@ -465,7 +465,7 @@ void leader_end_user(void) {
       tap_code(MS_BTN4);
     } else if (leader_sequence_one_key(DV_T)) {
       tap_code(KC_MUTE);
-    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
+    } else if (leader_sequence_one_key(REPEAT) || leader_sequence_one_key(MS_BTN1) || leader_sequence_one_key(CTL_BSPC) || leader_sequence_one_key(KC_BSPC)) {
       eeconfig_read_keymap(&keymap_config);
       keymap_config.swap_ralt_rgui = false;
       keymap_config.swap_rctl_rgui = false;

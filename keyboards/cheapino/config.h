@@ -5,7 +5,7 @@
 
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 #define WS2812_PIO_USE_PIO1 // Force the usage of PIO1 peripheral, by default the WS2812 implementation uses the PIO0 peripheral
-#define WS2812_BYTE_ORDER WS2812_BYTE_ORDER_RGB
+#define WS2812_BYTE_ORDER WS2812_BYTE_ORDER_GRB
 
 
 // Pick good defaults for enabling homerow modifiers
