@@ -3,7 +3,9 @@
 
 #include QMK_KEYBOARD_H
 #include "keymap.h"
+#include "cheapino.h"
 #include "print.h"
+#include "usb_util.h"
 
 #if __has_include("env.h")
 #include "env.h"
@@ -19,6 +21,10 @@
  */
 static void cheapino_rgb_status_sync_from(layer_state_t layers) {
 #ifdef RGBLIGHT_ENABLE
+    // quantum_init() calls layer_state_set_user() before rgblight_init().
+    if (!is_rgblight_initialized) {
+        return;
+    }
     if (host_keyboard_led_state().caps_lock) {
         rgblight_enable_noeeprom();
         rgblight_sethsv_noeeprom(0, 0, CHEAPINO_RGB_STATUS_VAL); // white
@@ -47,7 +53,16 @@ static void cheapino_rgb_status_sync(void) {
     cheapino_rgb_status_sync_from(layer_state);
 }
 
+#ifdef CHEAPINO_BOOT_LED_DIAG
+static bool cheapino_boot_diag_done;
+#endif
+
 void keyboard_post_init_user(void) {
+#ifdef CHEAPINO_BOOT_LED_DIAG
+    cheapino_boot_diag_done = false;
+    cheapino_boot_led_show(1);
+#endif
+
     // Ensure RGUI is always GUI (never swapped with RALT).
     eeconfig_read_keymap(&keymap_config);
     keymap_config.swap_ralt_rgui = false;
@@ -56,20 +71,44 @@ void keyboard_post_init_user(void) {
     keymap_config.swap_lctl_lgui = true;
     eeconfig_update_keymap(&keymap_config);
 
-#ifdef CONSOLE_ENABLE
-    debug_enable   = true;
-    debug_keyboard = true;
+#ifdef CHEAPINO_BOOT_LED_DIAG
+    cheapino_boot_led_show(2);
+    cheapino_boot_led_show(3);
 #endif
+}
 
-    cheapino_rgb_status_sync();
+void housekeeping_task_user(void) {
+#ifdef CHEAPINO_BOOT_LED_DIAG
+    if (!cheapino_boot_diag_done && usb_connected_state()) {
+        cheapino_boot_diag_done = true;
+        cheapino_boot_led_usb_ok();
+        cheapino_rgb_status_sync();
+    }
+#else
+    static bool boot_status_synced;
+    if (!boot_status_synced) {
+        boot_status_synced = true;
+        cheapino_rgb_status_sync();
+    }
+#endif
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+#ifdef CHEAPINO_BOOT_LED_DIAG
+    if (!cheapino_boot_diag_done) {
+        return state;
+    }
+#endif
     cheapino_rgb_status_sync_from(state);
     return state;
 }
 
 bool led_update_user(led_t led_state) {
+#ifdef CHEAPINO_BOOT_LED_DIAG
+    if (!cheapino_boot_diag_done) {
+        return true;
+    }
+#endif
     cheapino_rgb_status_sync();
     return true;
 }

@@ -7,6 +7,13 @@
 #define RGBLIGHT_DEFAULT_VAL 0
 #define CHEAPINO_SKIP_RGB_BOOT_FLASH
 
+// Boot color stages on startup (see cheapino.h).
+#define CHEAPINO_BOOT_LED_DIAG
+// Pause on each boot-diagnostic color (ms).
+#define CHEAPINO_BOOT_LED_STAGE_MS 400
+// Brief cyan flash when USB is up, then LED goes to normal status (off/layer).
+#define CHEAPINO_BOOT_LED_USB_MS 120
+
 // Brightness for layer / caps indicators (0–255).
 #ifndef CHEAPINO_RGB_STATUS_VAL
 #define CHEAPINO_RGB_STATUS_VAL 30
