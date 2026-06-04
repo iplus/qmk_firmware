@@ -16,6 +16,7 @@ enum cheapino_small_layers {
     _SYS,
     _GAME,
     _NMG,
+    _GAMQ,
     _QWT,
 };
 

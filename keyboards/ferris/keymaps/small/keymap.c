@@ -35,7 +35,7 @@ enum ferris_layers {
   _FUN,
   _FN1,
   _FN2,
-  _AL,
+  _GAMQ,
   _QWT,
   _SYSTAB,
   _SYS,
@@ -224,16 +224,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //),
   // dvorak
   [_GAME] = LAYOUT(
-    KC_RCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_VOLD, KC_UP  , KC_VOLU , KC_ESC,
+    KC_RCTL, DV_Q, DV_W, DV_E, DV_T,              KC_I, KC_STOP, KC_UP  , KC_VOLU , KC_ESC,
     KC_RSFT, DV_A, DV_S, DV_D, DV_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
     KC_RALT, DV_Z, DV_X, DV_C, DV_B,              KC_N, KC_MPLY, KC_MNXT, C(DV_T) ,   KC_M,
                   LT(_NMG, DV_R), KC_SPACE,  ALT_TAB, TO(_AL1)
+  ),
+  [_GAMQ] = LAYOUT(
+    KC_RCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_STOP, KC_UP  , KC_VOLU , KC_ESC,
+    KC_RSFT, KC_A, KC_S, KC_D, KC_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
+    KC_RALT, KC_Z, KC_X, KC_C, KC_B,              KC_N, KC_MPLY, KC_MNXT, C(KC_T) ,   KC_M,
+                  LT(_NMG, KC_R), KC_SPACE,  ALT_TAB, TO(_AL1)
   ),
   [_NMG] = LAYOUT(
     DV_Z, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
     KC_TAB , DV_C , DV_X,  DV_F,    DV_I,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
     KC_M,    KC_F5, KC_F6, DV_Y,    DV_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 _______, _______,  _______, _______
+                                 _______, _______,  _______, TG(_GAMQ)
   ),
   [_QWT] = LAYOUT(
     KC_SCLN   , CTL_KC_COMM, ALT_KC_DOT, GUI_KC_P  , KC_Y,        KC_G   , KC_G  , KC_C  , KC_R  , KC_L,

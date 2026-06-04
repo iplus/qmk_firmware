@@ -23,3 +23,13 @@
 #ifndef CHEAPINO_RGB_WIN_VAL
 #define CHEAPINO_RGB_WIN_VAL 4
 #endif
+
+// Dim red for _GAME / _NMG (0–255).
+#ifndef CHEAPINO_RGB_GAME_VAL
+#define CHEAPINO_RGB_GAME_VAL 10
+#endif
+
+// Brighter red for _GAMQ (0–255).
+#ifndef CHEAPINO_RGB_GAMQ_VAL
+#define CHEAPINO_RGB_GAMQ_VAL CHEAPINO_RGB_STATUS_VAL
+#endif

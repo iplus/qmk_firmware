@@ -35,9 +35,14 @@ static void cheapino_rgb_status_sync_from(layer_state_t layers) {
         rgblight_sethsv_noeeprom(170, 255, CHEAPINO_RGB_STATUS_VAL); // blue
         return;
     }
+    if (layer_state_cmp(layers, _GAMQ)) {
+        rgblight_enable_noeeprom();
+        rgblight_sethsv_noeeprom(0, 255, CHEAPINO_RGB_GAMQ_VAL); // bright red
+        return;
+    }
     if (layer_state_cmp(layers, _GAME) || layer_state_cmp(layers, _NMG)) {
         rgblight_enable_noeeprom();
-        rgblight_sethsv_noeeprom(0, 255, CHEAPINO_RGB_STATUS_VAL); // red
+        rgblight_sethsv_noeeprom(0, 255, CHEAPINO_RGB_GAME_VAL); // dim red
         return;
     }
     if (!keymap_config.swap_lctl_lgui) {
