@@ -40,7 +40,7 @@ static void cheapino_rgb_status_sync_from(layer_state_t layers) {
         rgblight_sethsv_noeeprom(0, 255, CHEAPINO_RGB_GAMQ_VAL); // bright red
         return;
     }
-    if (layer_state_cmp(layers, _GAME) || layer_state_cmp(layers, _NMG)) {
+    if (layer_state_cmp(layers, _GAME) || layer_state_cmp(layers, _NMG) || layer_state_cmp(layers, _NMGQ)) {
         rgblight_enable_noeeprom();
         rgblight_sethsv_noeeprom(0, 255, CHEAPINO_RGB_GAME_VAL); // dim red
         return;

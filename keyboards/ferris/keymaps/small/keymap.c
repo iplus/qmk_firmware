@@ -29,18 +29,15 @@ enum ferris_layers {
   _AL2,
   _SML,
   _SMR,
-  _NM1,
-  _NM2,
   _NUM,
   _FUN,
-  _FN1,
-  _FN2,
-  _GAMQ,
-  _QWT,
   _SYSTAB,
   _SYS,
+  _QWT,
   _GAME,
+  _GAMQ,
   _NMG,
+  _NMGQ,
 };
 
 #define XX_M LT(0, DV_M)
@@ -49,7 +46,6 @@ enum ferris_layers {
 #define XXX_TAB LT(_SYSTAB, KC_TAB)
 #define XX_ESC LT(_SYS, KC_ESC)
 #define SYS_U LT(_SYS, DV_U)
-#define SYS_S LT(_SYS, DV_S)
 #define SYSL_U LT(_SYSTAB, DV_U)
 #define SYS_K LT(_SYS, DV_K)
 #define SYS_H LT(_SYS, DV_H)
@@ -66,15 +62,9 @@ enum ferris_layers {
 #define CTL_R RCTL_T(DV_R)
 #define SMR_E LT(_SMR, DV_E)
 #define SML_T LT(_SML, DV_T)
-#define NM1_A LT(_NM1, DV_A)
-#define NM2_O LT(_NM2, DV_O)
 #define NUM_A LT(_NUM, DV_A)
 #define NUM_O LT(_NUM, DV_O)
-#define FUN_O LT(_FUN, DV_O)
-#define FUN_QUOT LT(_FUN, DV_QUOT)
 #define FUN_A LT(_FUN, DV_A)
-#define FN2_N LT(_FN2, DV_N)
-#define FN1_S LT(_FN1, DV_S)
 #define FUN_KC_A LT(_FUN, KC_A)
 #define NUM_KC_O LT(_NUM, KC_O)
 #define SMR_KC_E LT(_SMR, KC_E)
@@ -170,6 +160,30 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS, XXXXXXX,      XXXXXXX, DV_SLSH, DV_HASH, DV_AT  , DV_PERC,
                                  KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
+  [_SML] = LAYOUT(
+    DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
+    DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
+  ),
+  [_SMR] = LAYOUT(
+    DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
+    DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
+  ),
+  [_NUM] = LAYOUT(
+    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
+    KC_RALT, KC_PDOT, MS_WHLU, MS_WHLD, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 KC_RCTL, KC_LSFT,    DV_0, DV_9
+  ),
+  [_FUN] = LAYOUT(
+    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
+    _______, KC_RGUI, KC_RALT, KC_RCTL, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
+    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F11, KC_F12, KC_F13, KC_F14,
+                                 KC_RCTL, KC_LSFT,    KC_F10, KC_F9
+  ),
   [_SYSTAB] = LAYOUT(
     KC_CAPS, MS_BTN3    , CPY_PST   , XXXXXXX , XXXXXXX,      XXXXXXX, CPY_PST, KC_UP  , KC_BSPC , XX_ESC,
     XXX_TAB, MS_BTN2    , MS_BTN1   , _______ , XXXXXXX,      XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XX_ENT,
@@ -182,38 +196,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     XXXXXXX, XXXXXXX , XXXXXXX, XXXXXXX , XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX , XXXXXXX,
                                  KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
   ),
-  /*
-[]{}    +X*.
-<>()    -o/=
-*/
-  [_SML] = LAYOUT(
-    DV_LBRC, DV_RBRC, DV_LCBR, DV_RCBR, XXXXXXX,      XXXXXXX, DV_PLUS, XXXXXXX, DV_ASTR, DV_DOT ,
-    DV_LABK, DV_RABK, DV_LPRN, DV_RPRN, XXXXXXX,      XXXXXXX, DV_MINS, _______, DV_SLSH, DV_EQL ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
-  ),
-/*
-;^X`    #@%/
-:$o~    $!&\
-*/
-  [_SMR] = LAYOUT(
-    DV_SCLN, DV_CIRC, XXXXXXX, DV_GRV , XXXXXXX,      XXXXXXX, DV_HASH, DV_AT  , DV_PERC, DV_SLSH,
-    DV_COLN, DV_DLR , _______, DV_TILD, XXXXXXX,      XXXXXXX, DV_DLR , DV_EXLM, DV_AMPR, DV_BSLS,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_RCTL, KC_LSFT,  KC_RGUI, KC_RALT
-  ),
-  //
-  [_NUM] = LAYOUT(
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, DV_5   , DV_6   , DV_7   , DV_8   ,
-    KC_RALT, KC_PDOT, MS_WHLU, MS_WHLD, XXXXXXX,       XXXXXXX, DV_1   , DV_2   , DV_3   , DV_4   ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-                                 KC_RCTL, KC_LSFT,    DV_0, DV_9
-  ),
-  [_FUN] = LAYOUT(
-    _______, _______, _______, _______, XXXXXXX,      XXXXXXX, KC_F5  , KC_F6  , KC_F7  , KC_F8  ,
-    _______, KC_RGUI, KC_RALT, KC_RCTL, XXXXXXX,      XXXXXXX, KC_F1  , KC_F2  , KC_F3  , KC_F4  ,
-    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,      XXXXXXX, KC_F11, KC_F12, KC_F13, KC_F14,
-                                 KC_RCTL, KC_LSFT,    KC_F10, KC_F9
+  [_QWT] = LAYOUT(
+    KC_SCLN   , CTL_KC_COMM, ALT_KC_DOT, GUI_KC_P  , KC_Y,        KC_G   , KC_G  , KC_C  , KC_R  , KC_L,
+    FUN_KC_A  , NUM_KC_O, SMR_KC_E, SYSL_KC_U  , KC_I,        KC_D   , SML_KC_H  , KC_T  , KC_N  , KC_S,
+    KC_SCLN   , KC_Q   , KC_J  , KC_K  , KC_X,        KC_B   , KC_M   , KC_W , KC_V , KC_Z,
+                                CTL_BSPC, SFT_SPC,    ALT_TAB, TO(_AL1)
   ),
   // qwerty
   //[_GAME] = LAYOUT(
@@ -233,7 +220,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_RCTL, KC_Q, KC_W, KC_E, KC_T,              KC_I, KC_STOP, KC_UP  , KC_VOLU , KC_ESC,
     KC_RSFT, KC_A, KC_S, KC_D, KC_G,              KC_H, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENT,
     KC_RALT, KC_Z, KC_X, KC_C, KC_B,              KC_N, KC_MPLY, KC_MNXT, C(KC_T) ,   KC_M,
-                  LT(_NMG, KC_R), KC_SPACE,  ALT_TAB, TO(_AL1)
+                  LT(_NMGQ, KC_R), KC_SPACE,  ALT_TAB, TO(_AL1)
   ),
   [_NMG] = LAYOUT(
     DV_Z, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
@@ -241,11 +228,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_M,    KC_F5, KC_F6, DV_Y,    DV_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
                                  _______, _______,  _______, TG(_GAMQ)
   ),
-  [_QWT] = LAYOUT(
-    KC_SCLN   , CTL_KC_COMM, ALT_KC_DOT, GUI_KC_P  , KC_Y,        KC_G   , KC_G  , KC_C  , KC_R  , KC_L,
-    FUN_KC_A  , NUM_KC_O, SMR_KC_E, SYSL_KC_U  , KC_I,        KC_D   , SML_KC_H  , KC_T  , KC_N  , KC_S,
-    KC_SCLN   , KC_Q   , KC_J  , KC_K  , KC_X,        KC_B   , KC_M   , KC_W , KC_V , KC_Z,
-                                CTL_BSPC, SFT_SPC,    ALT_TAB, TO(_AL1)
+  [_NMGQ] = LAYOUT(
+    KC_Z, KC_1 , KC_2,  KC_3,    KC_ESC,      XXXXXXX, _______, KC_VOLU, _______, TO(_AL1),
+    KC_TAB , KC_C , KC_X,  KC_F,    KC_I,      XXXXXXX, KC_MPLY, KC_VOLD, KC_MNXT, _______,
+    KC_M,    KC_F5, KC_F6, KC_Y,    KC_V  ,      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+                                 _______, _______,  _______, TG(_GAMQ)
   ),
 };
 

@@ -14,10 +14,11 @@ enum cheapino_small_layers {
     _FUN,
     _SYSTAB,
     _SYS,
-    _GAME,
-    _NMG,
-    _GAMQ,
     _QWT,
+    _GAME,
+    _GAMQ,
+    _NMG,
+    _NMGQ,
 };
 
 #define XX_M LT(0, DV_M)
