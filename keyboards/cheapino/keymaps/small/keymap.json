@@ -30,8 +30,8 @@
       "KC_RCTL", "KC_LSFT", "KC_RGUI", "KC_RALT", "KC_RGUI", "KC_RALT"
     ],
     [
-      "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_TRNS", "KC_NO", "KC_NO", "DV_5", "DV_6", "DV_7", "DV_8",
-      "KC_RALT", "KC_PDOT", "MS_WHLU", "MS_WHLD", "KC_NO", "KC_NO", "DV_1", "DV_2", "DV_3", "DV_4",
+      "KC_TRNS", "KC_TRNS", "MS_WHLU", "MS_WHLD", "KC_NO", "KC_NO", "DV_5", "DV_6", "DV_7", "DV_8",
+      "KC_RALT", "KC_PDOT", "KC_RGUI", "KC_RCTL", "KC_NO", "KC_NO", "DV_1", "DV_2", "DV_3", "DV_4",
       "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO", "KC_NO",
       "KC_RCTL", "KC_LSFT", "KC_RGUI", "KC_RALT", "DV_0", "DV_9"
     ],
